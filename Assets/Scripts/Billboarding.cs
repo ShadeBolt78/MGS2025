@@ -1,27 +1,24 @@
-    using UnityEngine;
+using UnityEngine;
 
-    public class Billboard : MonoBehaviour
+public class Billboard2D : MonoBehaviour
+{
+    private Camera mainCamera;
+
+    void Start()
     {
-        private Transform mainCameraTransform;
-
-        void Start()
-        {
-            mainCameraTransform = Camera.main.transform; // Get reference to the main camera
-        }
-
-
-        /// <summary>
-        /// LateUpdate() will be called AFTER all update calls.
-        /// </summary>
-        void LateUpdate()
-        {
-            // Option 1: Full billboarding (object rotates to face camera completely)
-            //transform.LookAt(mainCameraTransform);
-
-            // Option 2: Y-axis only billboarding (object stays upright, only rotates horizontally)
-            // use this if you want the object to remain upright.
-            Vector3 lookAtCamera = mainCameraTransform.position - transform.position;
-            lookAtCamera.y = 0; // Lock Y-axis rotation
-            transform.rotation = Quaternion.LookRotation(lookAtCamera);
-        }
+        mainCamera = Camera.main;
     }
+
+    void LateUpdate()
+    {
+        if (mainCamera == null) return;
+
+        // Keep the note facing the camera in 2D
+        Vector3 scale = transform.localScale;
+        if (mainCamera.transform.position.x < transform.position.x)
+            scale.x = Mathf.Abs(scale.x);
+        else
+            scale.x = -Mathf.Abs(scale.x);
+        transform.localScale = scale;
+    }
+}

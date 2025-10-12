@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour
     private float secondsPerBeat; // assigned in Awake()
     private float timer; // per instance timer. "but what about Time.time" shut up.
 
+    public Transform hitZone; // hit zone for notes (inspector)
+    // the killzone is set a trigger collider 
+
     [Header("Lanes")]
     public LaneController[] lanes; // Lane hooks (inspector)
 
@@ -25,6 +28,10 @@ public class GameManager : MonoBehaviour
     {
         Instance = this; // Assign singleton reference
         secondsPerBeat = 60f / bpm; // Seconds in each beat is just the bpm converted to seconds reciprocal.
+        foreach (var lane in lanes) // set hitzone for each lane
+        {
+            lane.SetZones(hitZone);
+        }
     }
 
     /// <summary>

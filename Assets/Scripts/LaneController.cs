@@ -9,7 +9,7 @@ public class LaneController : MonoBehaviour
     public int laneIndex; // technically an ID
     public GameObject notePrefab; // prefab hook (inspector)
     public Transform spawnPoint; // note spawn coords (inspector)
-    public Transform hitZone; // note hit coords (inspector)
+    private Transform hitZone; // note hit coords (GM)
     public float noteSpeed = 5f; // the speed at which notes move because accesibility.
     // yk they never talk about MY accesibility needs of not giving a fuck about this
 
@@ -22,6 +22,16 @@ public class LaneController : MonoBehaviour
     private void Start()
     {
         InputManager.Instance.OnLaneKeyPressed += OnKeyPress; // subscribes OnKeyPress() (method in this script) to OnLaneKeyPressed Event
+    }
+
+    /// <summary>
+    /// Setter for hitZone so you don't have to set it liek 5 times
+    /// </summary>
+    /// <param name="hz">Hit Zone to set</param>
+    /// <param name="kz">Kill Zone to set</param>
+    public void SetZones(Transform hz)
+    {
+        hitZone = hz;
     }
 
     /// <summary>
