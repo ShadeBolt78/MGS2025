@@ -1,0 +1,115 @@
+{
+    "version": 1,
+    "name": "RhythmControls",
+    "maps": [
+        {
+            "name": "Gameplay",
+            "id": "e8e65a5f-e818-4c23-88e9-22eea95920d1",
+            "actions": [
+                {
+                    "name": "Lane1",
+                    "type": "Button",
+                    "id": "29a0853a-f184-4fb4-a405-9924fb51d51b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Lane2",
+                    "type": "Button",
+                    "id": "916223e9-b767-4552-84cb-f17648592f31",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Lane3",
+                    "type": "Button",
+                    "id": "f89c22ef-9057-4eb0-9198-351d3b552f48",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Lane4",
+                    "type": "Button",
+                    "id": "359706b7-149b-4292-a80f-5a20ab845105",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Lane5",
+                    "type": "Button",
+                    "id": "bb2b61bc-23dc-45be-9150-4863ae9ae8cc",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "1f365310-b722-4fbe-9aef-9c26a748547a",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lane1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ec79c8f2-c68b-4cd0-9b98-9808f83e86ad",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lane2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "feffc10f-9658-4b92-954c-741f0ae9b533",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lane3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4662d978-48ea-40e6-a629-73ebe1723666",
+                    "path": "<Keyboard>/j",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lane4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "738a3b2a-e476-4197-9af4-24f708934c9f",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lane5",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
