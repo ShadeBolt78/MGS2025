@@ -7,11 +7,11 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class InputManager : MonoBehaviour
 {
-    public static InputManager Instance { get; private set; } // singleton reference
+    public static InputManager Instance { get; private set; } // [singleton]
 
-    private RhythmControls controls; // RhythmControls is a generated class from Unity's input system
+    private RhythmControls controls; // RhythmControls input system file [editorGenerated]
 
-    public event Action<int> OnLaneKeyPressed; // Event for lanes: laneIndex 0–4
+    public event Action<int> OnLaneKeyPressed; // lane keypressed flag [event]
 
     private void Awake()
     {
@@ -41,6 +41,7 @@ public class InputManager : MonoBehaviour
     /// <summary>
     /// All this does is take the binding from the input system and calls each lanes OnKeyPress function when the bind is pressed.
     /// The indexing is done for security and to remove some headaches for me later.
+    /// This is technically hardcoding, but it's fine because its keybinds.
     /// </summary>
     private void BindLaneInputs()
     {

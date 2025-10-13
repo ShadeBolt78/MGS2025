@@ -1,0 +1,6 @@
+{
+  "songName": "Example Song",
+  "songPath": "Audio/exampleSong",
+  "bpm": 120,
+  "notesCsv": "0,0.5\n1,1.0\n2,1.5\n3,2.0\n4,2.5\n0,3.0\n2,3.25\n4,3.5"
+}

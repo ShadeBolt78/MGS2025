@@ -7,9 +7,9 @@ using UnityEngine;
 public class LaneController : MonoBehaviour
 {
     public int laneIndex; // technically an ID
-    public GameObject notePrefab; // prefab hook (inspector)
+    public GameObject notePrefab; // prefab (inspector) [hook]
     public Transform spawnPoint; // note spawn coords (inspector)
-    private Transform hitZone; // note hit coords (GM)
+    public Transform hitZone; // note hit coords (GM)
     public float noteSpeed = 5f; // the speed at which notes move because accesibility.
     // yk they never talk about MY accesibility needs of not giving a fuck about this
 
@@ -21,17 +21,8 @@ public class LaneController : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        // ill give you a description in the comment this time but going forward its gonna look like: OnKeyPress() -> OnLaneKeyPressed [subscription]
         InputManager.Instance.OnLaneKeyPressed += OnKeyPress; // subscribes OnKeyPress() (method in this script) to OnLaneKeyPressed Event
-    }
-
-    /// <summary>
-    /// Setter for hitZone so you don't have to set it liek 5 times
-    /// </summary>
-    /// <param name="hz">Hit Zone to set</param>
-    /// <param name="kz">Kill Zone to set</param>
-    public void SetZones(Transform hz)
-    {
-        hitZone = hz;
     }
 
     /// <summary>
@@ -59,12 +50,12 @@ public class LaneController : MonoBehaviour
     /// <param name="lane">The lane that got proced</param>
     private void OnKeyPress(int lane)
     {
-        if (lane != laneIndex) return; // fuck off if its not the lane we care about
+        if (lane != laneIndex) return; // fuck off if its not the lane we care about [checkCond]
 
         // Detect closest note in hit zone
         foreach (Transform child in transform) // for every note
         {
-            Note note = child.GetComponent<Note>(); // grab script reference 
+            Note note = child.GetComponent<Note>(); // grab script reference [grabRef]
             if (note != null && note.IsInHitZone(hitZone)) // if the note is not nothing (it happens) and the note thinks its in the hitzone
             {
                 note.Hit(); // tell the note it hit
