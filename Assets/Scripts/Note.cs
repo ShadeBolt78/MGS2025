@@ -44,8 +44,19 @@ public class Note : MonoBehaviour
     /// </summary>
     public void Hit()
     {
-        Debug.Log($"Lane {lane.laneIndex}: Note hit!"); // a debug statement prints whatevers in it to the unity console.
+        // Debug.Log($"Lane {lane.laneIndex}: Note hit!"); // a debug statement prints whatevers in it to the unity console.
         Destroy(gameObject); // it dieded :(
         // gameObject is a Monobehavior thing. It's the reference to the gameObject object the engine uses, all mono's have one.
+
+        // add score, whatever else here when a note is hit. 
+    }
+
+    /// <summary>
+    /// Miss () is called in KilLZone(), when the colliders detect a trigger collision
+    /// Miss() is called here for organization.
+    /// </summary>
+    public void Miss()
+    {
+        Destroy(gameObject);
     }
 }
