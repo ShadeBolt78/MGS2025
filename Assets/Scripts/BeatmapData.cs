@@ -21,14 +21,25 @@ public class BeatmapData
     [NonSerialized] public List<NoteData> notes = new(); // raw note data [decodeTarget]
 
     [Serializable]
-    public class NoteData // this is a helper class that just couples an int and float
+    public class NoteData // this is a POCO (Plain Ol' C# Object) class that just ties together info for notes from a CSV (Comma Seperated Values) string in the json
     {
+        public string type; // the type of note like hold, tap, etc [parsingKey]
         public int lane; // the lane the note goes to
         public float time; // the time the note should be spawned
+
+        // optionals (params for holding, etc)
+        public Dictionary<string, float> parameters = new(); 
+        // I admit this is over the top but like, its an easy way to allow for prototyping for other notes types later and keeps the csv readable,
+        // which is normally something i would not care about but we have a lot of non-experienced people both in and out of programming so
+        // a clearer understanding of architecture wherever it can be implemented is worth its weight in gold in large cooperative environments.
+        // it also forces mandatory parameters while allowing any number of optional parameters.
     }
+
     /// <summary>
     /// Parses the CSV-like string into structured note data.
-    /// Expected format: "lane,time" per line.
+    /// Expected format: 
+    ///     type,lane,time[,endtime,param1=val,param2=val,...]
+    ///    ex: Hold,2,3.0,endTime=5.0,length=2.0,intensity=0.8
     /// </summary>
     public void ParseCsv()
     {
@@ -40,14 +51,30 @@ public class BeatmapData
         foreach (string line in lines) // for every encoded note
         {
             string[] parts = line.Trim().Split(','); // get rid of any leading/trailing whitespace and split by delimiter ,
-            if (parts.Length != 2) continue; // format checking
+            if (parts.Length < 3) continue; // format checking
 
-            // if you can't read this line I would just work on something else.
-            if (int.TryParse(parts[0], out int lane) && float.TryParse(parts[1], out float time))
-                notes.Add(new NoteData { lane = lane, time = time });
+            var data = new NoteData
+            {
+                type = parts[0],
+                lane = int.Parse(parts[1]),
+                time = float.Parse(parts[2]),
+                parameters = new Dictionary<string, float>()
+            };
+
+            // parse optional params (always from index 3)
+            for (int i = 3; i < parts.Length; i++)
+            {
+                // if you can't read this block I would just work on something else.
+                string[] kv = parts[i].Split('='); // kv means "key-value"
+                if (kv.Length == 2 && float.TryParse(kv[1], out float val))
+                {
+                    data.parameters[kv[0]] = val;
+                }
+            }
+            notes.Add(data);
         }
-
         notes.Sort((a, b) => a.time.CompareTo(b.time)); // sorts notes based on time to appear so single iteration is possible
+        // for those who dont know this is a lambda ^ (look it up)
         // beatmaps should already be formatted as such but you just never know.
     }
 }

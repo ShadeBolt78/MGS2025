@@ -15,12 +15,14 @@ public class GameManager : MonoBehaviour
     // my commenting style is a bit unconventional, so heres an example of formatting i tend to stick to:
     // public string fuckOff = "Fuck You"; // Context for the variable and/or reason it exists (where it's assigned if thats not obvious) [tags]
     // [tags] function like keywords in Magic the Gathering, its a one work descriptor for a concept that should be well known.
+    // I also sometimes add {artifact} on commented lines, as past interations can provide some useful info for why things are done the way they are now.
+    // Anything with {artifact} is NOT to be uncommented, it likely does not have any supporting infrastructure and may break compilation
     public static GameManager Instance { get; private set; } // There can only be one. [singleton]
 
     [Header("Beat Settings")]
-    // public float bpm = 120f; // the BPM to a given song, for the MVP, its 120 default
-    // private float secondsPerBeat; // (Awake()) due to calculation
-    //public float noteTravelDistance = 10f; // i need this for later
+    // public float bpm = 120f; // the BPM to a given song, for the MVP, its 120 default {artifact}
+    // private float secondsPerBeat; // (Awake()) due to calculation {artifact}
+    //public float noteTravelDistance = 10f; // i need this for later {artifact}
     public float noteSpeed = 5f; // i need this for later!
     public Transform hitZone; // hit zone for notes (inspector)
     // the killzone is set a trigger collider and handles note deletion on its own.
@@ -33,6 +35,11 @@ public class GameManager : MonoBehaviour
     [Header("Hooks")]
     public LaneController[] lanes; // Lane hooks (inspector)
     public AudioSource audioSource; // audio hook (inspector)
+    public Dictionary<string, GameObject> notePrefabs; // reference storage for parsing from csv (GM)
+    // "erm 🤓 what about enums?" fuck off like actually.
+
+    public GameObject tapNotePrefab; // (inspector)
+    public GameObject holdNotePrefab; // (inspector)
 
     /// <summary>
     /// Awake() is a Monobehavior method, it is run before the first frame after object load and all Start() methods.
@@ -41,6 +48,13 @@ public class GameManager : MonoBehaviour
     {
         Instance = this; // Assign singleton reference
         string path = System.IO.Path.Combine(Application.streamingAssetsPath, "Beatmaps", beatmapFileName); // makes a nice readble path to the beatmap
+        notePrefabs = new Dictionary<string, GameObject>
+        {
+            {"Tap", tapNotePrefab },
+            {"Hold", holdNotePrefab }
+        }; // this is a rare instance of hardcoding being ok do to for non dynamic references.
+        // the reason why i am storing them in prefabs is because it allows for custom behavior and visual options.
+        // you can do it with code yeah but theres a fine line between game programming and programming a game yk. TLDR, use the engine features they save time.
         beatmap = BeatmapLoader.LoadFromJson(path);
         foreach (var lane in lanes) // set hitzone for each lane
         {
@@ -74,7 +88,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Update() is called every frame. 
+    /// Update() is called every frame, all Update() calls from every object complete before the next frame is started.
     /// </summary>
     private void Update()
     {

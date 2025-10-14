@@ -7,7 +7,7 @@
             "id": "e8e65a5f-e818-4c23-88e9-22eea95920d1",
             "actions": [
                 {
-                    "name": "Lane1",
+                    "name": "Lane0",
                     "type": "Button",
                     "id": "29a0853a-f184-4fb4-a405-9924fb51d51b",
                     "expectedControlType": "",
@@ -16,7 +16,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Lane2",
+                    "name": "Lane1",
                     "type": "Button",
                     "id": "916223e9-b767-4552-84cb-f17648592f31",
                     "expectedControlType": "",
@@ -25,7 +25,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Lane3",
+                    "name": "Lane2",
                     "type": "Button",
                     "id": "f89c22ef-9057-4eb0-9198-351d3b552f48",
                     "expectedControlType": "",
@@ -34,7 +34,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Lane4",
+                    "name": "Lane3",
                     "type": "Button",
                     "id": "359706b7-149b-4292-a80f-5a20ab845105",
                     "expectedControlType": "",
@@ -43,7 +43,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Lane5",
+                    "name": "Lane4",
                     "type": "Button",
                     "id": "bb2b61bc-23dc-45be-9150-4863ae9ae8cc",
                     "expectedControlType": "",
@@ -60,7 +60,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Lane1",
+                    "action": "Lane0",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -71,7 +71,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Lane2",
+                    "action": "Lane1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -82,7 +82,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Lane3",
+                    "action": "Lane2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -93,7 +93,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Lane4",
+                    "action": "Lane3",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -104,7 +104,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Lane5",
+                    "action": "Lane4",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

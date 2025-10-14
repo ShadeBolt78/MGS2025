@@ -42,7 +42,7 @@ public class Billboard2D : MonoBehaviour
         if (freezeX) euler.x = currentEuler.x;
         if (sweetCrispXTweak) euler.x += 90; 
         // this is here because sometimes depending on parenting the direction calcs make a 2d object face
-        // the camera not "2d head on" but rather "3d head on" because theres actually no such thing a 2d LMAO
+        // the camera not "2d head on" but rather "3d head on" because theres actually no such thing as 2d LMAO
         if (freezeY) euler.y = currentEuler.y;
         if (freezeZ) euler.z = currentEuler.z;
 

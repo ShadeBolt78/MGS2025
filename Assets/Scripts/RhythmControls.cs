@@ -93,7 +93,7 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
             ""id"": ""e8e65a5f-e818-4c23-88e9-22eea95920d1"",
             ""actions"": [
                 {
-                    ""name"": ""Lane1"",
+                    ""name"": ""Lane0"",
                     ""type"": ""Button"",
                     ""id"": ""29a0853a-f184-4fb4-a405-9924fb51d51b"",
                     ""expectedControlType"": """",
@@ -102,7 +102,7 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Lane2"",
+                    ""name"": ""Lane1"",
                     ""type"": ""Button"",
                     ""id"": ""916223e9-b767-4552-84cb-f17648592f31"",
                     ""expectedControlType"": """",
@@ -111,7 +111,7 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Lane3"",
+                    ""name"": ""Lane2"",
                     ""type"": ""Button"",
                     ""id"": ""f89c22ef-9057-4eb0-9198-351d3b552f48"",
                     ""expectedControlType"": """",
@@ -120,7 +120,7 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Lane4"",
+                    ""name"": ""Lane3"",
                     ""type"": ""Button"",
                     ""id"": ""359706b7-149b-4292-a80f-5a20ab845105"",
                     ""expectedControlType"": """",
@@ -129,7 +129,7 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Lane5"",
+                    ""name"": ""Lane4"",
                     ""type"": ""Button"",
                     ""id"": ""bb2b61bc-23dc-45be-9150-4863ae9ae8cc"",
                     ""expectedControlType"": """",
@@ -146,7 +146,7 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Lane1"",
+                    ""action"": ""Lane0"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -157,7 +157,7 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Lane2"",
+                    ""action"": ""Lane1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -168,7 +168,7 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Lane3"",
+                    ""action"": ""Lane2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -179,7 +179,7 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Lane4"",
+                    ""action"": ""Lane3"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -190,7 +190,7 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Lane5"",
+                    ""action"": ""Lane4"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -201,11 +201,11 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
 }");
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
+        m_Gameplay_Lane0 = m_Gameplay.FindAction("Lane0", throwIfNotFound: true);
         m_Gameplay_Lane1 = m_Gameplay.FindAction("Lane1", throwIfNotFound: true);
         m_Gameplay_Lane2 = m_Gameplay.FindAction("Lane2", throwIfNotFound: true);
         m_Gameplay_Lane3 = m_Gameplay.FindAction("Lane3", throwIfNotFound: true);
         m_Gameplay_Lane4 = m_Gameplay.FindAction("Lane4", throwIfNotFound: true);
-        m_Gameplay_Lane5 = m_Gameplay.FindAction("Lane5", throwIfNotFound: true);
     }
 
     ~@RhythmControls()
@@ -286,11 +286,11 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
     // Gameplay
     private readonly InputActionMap m_Gameplay;
     private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
+    private readonly InputAction m_Gameplay_Lane0;
     private readonly InputAction m_Gameplay_Lane1;
     private readonly InputAction m_Gameplay_Lane2;
     private readonly InputAction m_Gameplay_Lane3;
     private readonly InputAction m_Gameplay_Lane4;
-    private readonly InputAction m_Gameplay_Lane5;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -302,6 +302,10 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
         /// Construct a new instance of the input action map wrapper class.
         /// </summary>
         public GameplayActions(@RhythmControls wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/Lane0".
+        /// </summary>
+        public InputAction @Lane0 => m_Wrapper.m_Gameplay_Lane0;
         /// <summary>
         /// Provides access to the underlying input action "Gameplay/Lane1".
         /// </summary>
@@ -318,10 +322,6 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/Lane4".
         /// </summary>
         public InputAction @Lane4 => m_Wrapper.m_Gameplay_Lane4;
-        /// <summary>
-        /// Provides access to the underlying input action "Gameplay/Lane5".
-        /// </summary>
-        public InputAction @Lane5 => m_Wrapper.m_Gameplay_Lane5;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -348,6 +348,9 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_GameplayActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_GameplayActionsCallbackInterfaces.Add(instance);
+            @Lane0.started += instance.OnLane0;
+            @Lane0.performed += instance.OnLane0;
+            @Lane0.canceled += instance.OnLane0;
             @Lane1.started += instance.OnLane1;
             @Lane1.performed += instance.OnLane1;
             @Lane1.canceled += instance.OnLane1;
@@ -360,9 +363,6 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
             @Lane4.started += instance.OnLane4;
             @Lane4.performed += instance.OnLane4;
             @Lane4.canceled += instance.OnLane4;
-            @Lane5.started += instance.OnLane5;
-            @Lane5.performed += instance.OnLane5;
-            @Lane5.canceled += instance.OnLane5;
         }
 
         /// <summary>
@@ -374,6 +374,9 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
         /// <seealso cref="GameplayActions" />
         private void UnregisterCallbacks(IGameplayActions instance)
         {
+            @Lane0.started -= instance.OnLane0;
+            @Lane0.performed -= instance.OnLane0;
+            @Lane0.canceled -= instance.OnLane0;
             @Lane1.started -= instance.OnLane1;
             @Lane1.performed -= instance.OnLane1;
             @Lane1.canceled -= instance.OnLane1;
@@ -386,9 +389,6 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
             @Lane4.started -= instance.OnLane4;
             @Lane4.performed -= instance.OnLane4;
             @Lane4.canceled -= instance.OnLane4;
-            @Lane5.started -= instance.OnLane5;
-            @Lane5.performed -= instance.OnLane5;
-            @Lane5.canceled -= instance.OnLane5;
         }
 
         /// <summary>
@@ -430,6 +430,13 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
     public interface IGameplayActions
     {
         /// <summary>
+        /// Method invoked when associated input action "Lane0" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLane0(InputAction.CallbackContext context);
+        /// <summary>
         /// Method invoked when associated input action "Lane1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -457,12 +464,5 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLane4(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Lane5" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnLane5(InputAction.CallbackContext context);
     }
 }

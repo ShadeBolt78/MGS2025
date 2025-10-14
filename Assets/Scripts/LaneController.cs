@@ -7,7 +7,7 @@ using UnityEngine;
 public class LaneController : MonoBehaviour
 {
     public int laneIndex; // technically an ID
-    public GameObject notePrefab; // prefab (inspector) [hook]
+    //public GameObject notePrefab; // prefab (inspector) [hook] {artifact}
     public Transform spawnPoint; // note spawn coords (inspector)
     public Transform hitZone; // note hit coords (GM)
     public float noteSpeed = 5f; // the speed at which notes move because accesibility.
@@ -21,8 +21,9 @@ public class LaneController : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        // ill give you a description in the comment this time but going forward its gonna look like: OnKeyPress() -> OnLaneKeyPressed [subscription]
-        InputManager.Instance.OnLaneKeyPressed += OnKeyPress; // subscribes OnKeyPress() (method in this script) to OnLaneKeyPressed Event
+        // ill give you a description in the comment this time but going forward its gonna look like: HandleLanePress() -> OnLanePressed [subscription]
+        InputManager.Instance.OnLanePressed += HandleLanePress; // subscribes HandleLanePress() (method in this script) to OnLanePressed Event
+        //InputManager.Instance.OnLaneReleased += HandleLaneRelease;
     }
 
     /// <summary>
@@ -30,35 +31,49 @@ public class LaneController : MonoBehaviour
     /// </summary>
     private void OnDestroy()
     {
-        InputManager.Instance.OnLaneKeyPressed -= OnKeyPress; // unsubs (see Start())
+        InputManager.Instance.OnLanePressed -= HandleLanePress; // unsubs (see Start())
     }
 
     /// <summary>
     /// SpawnNote(), spawns a note!
-    /// Spawns note from prefab assigned in inspector.
+    /// Spawns note from prefab based on note type.
     /// </summary>
-    public void SpawnNote()
+    public void SpawnTypedNote(BeatmapData.NoteData data, string type)
     {
-        GameObject noteObj = Instantiate(notePrefab, spawnPoint.position, Quaternion.identity, transform); // instantiate note prefab
-        noteObj.GetComponent<Note>().Initialize(this, noteSpeed); // this grabs the script set in the prefab and tells it some info to keep track of
+        // ask GM pwetty pwease for the note prefab according to the type
+        if (!GameManager.Instance.notePrefabs.TryGetValue(type, out GameObject prefab))
+        {
+            Debug.LogWarning($"Unknown note type '{type}': skip that shit");
+            return;
+        }
+
+        // instantiate that shit
+        GameObject noteObj = Instantiate(prefab, spawnPoint.position, Quaternion.identity, transform); // instantiate note prefab
+
+        // see if the attatched script is either a NoteBase or a child class of NoteBase
+        // THIS IS ONE OF THE FEW TIMES INHERITANCE IS USEFUL OUTSIDE OF WRITING API SOFTWARE.
+        if (noteObj.TryGetComponent<NoteBase>(out var note))
+        {
+            note.Initialize(this, noteSpeed, data);
+        }
+        //noteObj.GetComponent<Note>().Initialize(this, noteSpeed); // this grabs the script set in the prefab and tells it some info to keep track of {artifact}
     }
 
     /// <summary>
-    /// OnKeyPress(int) is called whenever a key is pressed BY THE INPUTMANAGER USING EVENTS.
+    /// HandleLanePress(int) is called whenever a key is pressed BY THE INPUTMANAGER USING EVENTS.
     /// See the InputManager for more info!
     /// </summary>
     /// <param name="lane">The lane that got proced</param>
-    private void OnKeyPress(int lane)
+    private void HandleLanePress(int lane)
     {
         if (lane != laneIndex) return; // fuck off if its not the lane we care about [checkCond]
 
         // Detect closest note in hit zone
         foreach (Transform child in transform) // for every note
         {
-            Note note = child.GetComponent<Note>(); // grab script reference [grabRef]
-            if (note != null && note.IsInHitZone(hitZone)) // if the note is not nothing (it happens) and the note thinks its in the hitzone
+            if (child.TryGetComponent<NoteBase>(out var note) && note.IsInHitZone(hitZone)) // if the note is not nothing (it happens) and the note thinks its in the hitzone
             {
-                note.Hit(); // tell the note it hit
+                note.OnKeyPressed(); // tell the note it hath been pressed
                 break; // dont need to check the rest, semantically (and design wise) it is impossible for two notes to be in the same place.
             }
         }

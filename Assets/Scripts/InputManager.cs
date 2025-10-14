@@ -1,63 +1,109 @@
-using UnityEngine;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
-/// <summary>
-/// The InputManager manages all controls, inputs, and input events.
-/// </summary>
+// if you cant read this without comments maybe leave this one alone
 public class InputManager : MonoBehaviour
 {
-    public static InputManager Instance { get; private set; } // [singleton]
+    public static InputManager Instance { get; private set; }
 
-    private RhythmControls controls; // RhythmControls input system file [editorGenerated]
+    [Header("Input Settings")]
+    [Tooltip("Input Action Asset containing the 'Gameplay' action map.")]
+    [SerializeField] private InputActionAsset inputAsset;
 
-    public event Action<int> OnLaneKeyPressed; // lane keypressed flag [event]
+    private InputActionMap gameplayMap;
+
+    // Stores all lane actions: lane index → InputAction
+    private readonly Dictionary<int, InputAction> laneActions = new();
+
+    // Lane press/release events
+    public event Action<int> OnLanePressed;
+    public event Action<int> OnLaneReleased;
 
     private void Awake()
     {
-        if (Instance != null && Instance != this) // there can only be one.
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
         Instance = this;
+        DontDestroyOnLoad(gameObject);
 
-        controls = new RhythmControls(); // instantiate
+        InitializeGameplayMap();
     }
 
-    private void OnEnable()
-    {
-        controls.Enable();
-        BindLaneInputs();
-    }
+    private void OnEnable() => gameplayMap?.Enable();
+    private void OnDisable() => gameplayMap?.Disable();
 
-    private void OnDisable()
+    private void InitializeGameplayMap()
     {
-        controls.Disable();
-        UnbindLaneInputs();
+        gameplayMap = inputAsset.FindActionMap("Gameplay", throwIfNotFound: true);
+        laneActions.Clear();
+
+        // Auto-detect any actions named "Lane0", "Lane1", etc.
+        int i = 0;
+        while (true)
+        {
+            var action = gameplayMap.FindAction($"Lane{i}");
+            if (action == null) break;
+
+            int laneIndex = i; // Capture variable for closure
+            laneActions[laneIndex] = action;
+
+            // Subscribe events
+            action.performed += ctx => OnLanePressed?.Invoke(laneIndex);
+            action.canceled += ctx => OnLaneReleased?.Invoke(laneIndex);
+
+            i++;
+        }
+
+        Debug.Log($"ControlsManager initialized with {laneActions.Count} lanes.");
     }
 
     /// <summary>
-    /// All this does is take the binding from the input system and calls each lanes OnKeyPress function when the bind is pressed.
-    /// The indexing is done for security and to remove some headaches for me later.
-    /// This is technically hardcoding, but it's fine because its keybinds.
+    /// Returns the InputAction for a given lane index.
     /// </summary>
-    private void BindLaneInputs()
+    public InputAction GetLaneAction(int laneIndex)
     {
-        controls.Gameplay.Lane1.performed += ctx => OnLaneKeyPressed?.Invoke(0);
-        controls.Gameplay.Lane2.performed += ctx => OnLaneKeyPressed?.Invoke(1);
-        controls.Gameplay.Lane3.performed += ctx => OnLaneKeyPressed?.Invoke(2);
-        controls.Gameplay.Lane4.performed += ctx => OnLaneKeyPressed?.Invoke(3);
-        controls.Gameplay.Lane5.performed += ctx => OnLaneKeyPressed?.Invoke(4);
+        return laneActions.TryGetValue(laneIndex, out var action) ? action : null;
     }
 
-    private void UnbindLaneInputs()
+    /// <summary>
+    /// Returns true if the lane key is currently being held.
+    /// </summary>
+    public bool IsLaneHeld(int laneIndex)
     {
-        controls.Gameplay.Lane1.performed -= ctx => OnLaneKeyPressed?.Invoke(0);
-        controls.Gameplay.Lane2.performed -= ctx => OnLaneKeyPressed?.Invoke(1);
-        controls.Gameplay.Lane3.performed -= ctx => OnLaneKeyPressed?.Invoke(2);
-        controls.Gameplay.Lane4.performed -= ctx => OnLaneKeyPressed?.Invoke(3);
-        controls.Gameplay.Lane5.performed -= ctx => OnLaneKeyPressed?.Invoke(4);
+        var action = GetLaneAction(laneIndex);
+        return action != null && action.ReadValue<float>() > 0.5f;
+    }
+
+    /// <summary>
+    /// Start a runtime rebind for a specific lane.
+    /// </summary>
+    public void StartRebind(int laneIndex, Action onComplete = null)
+    {
+        var action = GetLaneAction(laneIndex);
+        if (action == null)
+        {
+            Debug.LogWarning($"No action found for lane {laneIndex}");
+            return;
+        }
+
+        action.Disable();
+
+        var rebind = action.PerformInteractiveRebinding()
+            .WithControlsExcluding("<Mouse>") // optional
+            .OnComplete(ctx =>
+            {
+                ctx.Dispose();
+                action.Enable();
+                onComplete?.Invoke();
+                Debug.Log($"Rebound Lane {laneIndex} to {action.bindings[0].effectivePath}");
+            });
+
+        rebind.Start();
     }
 }

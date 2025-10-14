@@ -9,7 +9,7 @@ public class KillZone : MonoBehaviour
     /// <param name="other">The other collider that entered this one</param>
     void OnTriggerEnter(Collider other)
     {
-        other.gameObject.GetComponent<Note>().Miss();
+        other.gameObject.GetComponent<NoteBase>().Miss();
         //Destroy(other.gameObject); // destroy note as it enters.
     }
 }
