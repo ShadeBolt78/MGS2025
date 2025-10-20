@@ -13,6 +13,7 @@ public class InputManager : MonoBehaviour
     [SerializeField] private InputActionAsset inputAsset;
 
     private InputActionMap gameplayMap;
+    private InputActionMap uiMap;
 
     // Stores all lane actions: lane index → InputAction
     private readonly Dictionary<int, InputAction> laneActions = new();
@@ -20,6 +21,20 @@ public class InputManager : MonoBehaviour
     // Lane press/release events
     public event Action<int> OnLanePressed;
     public event Action<int> OnLaneReleased;
+
+    // ui actions
+    private InputAction pauseAction;
+    private InputAction navigateAction;
+    private InputAction submitAction;
+    private InputAction cancelAction;
+
+    public event Action OnPausePressed;
+    public event Action<Vector2> OnNavigate;
+    public event Action OnSubmit;
+    public event Action OnCancel;
+
+    public enum InputContext { Gameplay, UI }
+    public InputContext CurrentContext { get; private set; } = InputContext.Gameplay;
 
     private void Awake()
     {
@@ -32,15 +47,29 @@ public class InputManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        InitializeGameplayMap();
+        InitializeActionMaps();
     }
 
-    private void OnEnable() => gameplayMap?.Enable();
-    private void OnDisable() => gameplayMap?.Disable();
+    private void OnEnable()
+    {
+        EnableGameplay();
+    }
+    private void OnDisable()
+    {
+        DisableAll();
+    }
 
-    private void InitializeGameplayMap()
+    private void InitializeActionMaps()
     {
         gameplayMap = inputAsset.FindActionMap("Gameplay", throwIfNotFound: true);
+        uiMap = inputAsset.FindActionMap("UI", throwIfNotFound: true);
+
+        InitializeLaneInputs();
+        InitializeUIInputs();
+    }
+
+    private void InitializeLaneInputs()
+    {
         laneActions.Clear();
 
         // Auto-detect any actions named "Lane0", "Lane1", etc.
@@ -61,6 +90,43 @@ public class InputManager : MonoBehaviour
         }
 
         Debug.Log($"ControlsManager initialized with {laneActions.Count} lanes.");
+    }
+
+    private void InitializeUIInputs()
+    {
+        pauseAction = uiMap.FindAction("Pause");
+        navigateAction = uiMap.FindAction("Navigate");
+        submitAction = uiMap.FindAction("Submit");
+        cancelAction = uiMap.FindAction("Cancel");
+
+        pauseAction.performed += ctx => OnPausePressed?.Invoke();
+        navigateAction.performed += ctx => OnNavigate?.Invoke(ctx.ReadValue<Vector2>());
+        submitAction.performed += ctx => OnSubmit?.Invoke();
+        cancelAction.performed += ctx => OnCancel?.Invoke();
+    }
+
+    /// Context switching
+    /// because balls
+    public void EnableGameplay()
+    {
+        DisableAll();
+        gameplayMap.Enable();
+        CurrentContext = InputContext.Gameplay;
+        Debug.Log("InputManager switched to Gameplay action map");
+    }
+
+    public void EnableUI()
+    {
+        DisableAll();
+        uiMap.Enable();
+        CurrentContext = InputContext.UI;
+        Debug.Log("InputManager switched to UI action map");
+    }
+
+    private void DisableAll()
+    {
+        gameplayMap?.Disable();
+        uiMap?.Disable();
     }
 
     /// <summary>
@@ -106,4 +172,7 @@ public class InputManager : MonoBehaviour
 
         rebind.Start();
     }
+
+    // UI Action Accessors
+    public bool IsPauseHeld => pauseAction != null && pauseAction.ReadValue<float>() > 0.5f; 
 }
