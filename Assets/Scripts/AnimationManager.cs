@@ -20,8 +20,10 @@ public class AnimationManager : MonoBehaviour
     Vector3 offscreen = new Vector3(-10f, 0.5f, 1.1f);
     public Vector3 baseGeneral;
 
-    public int resetcounter = 0;
-    int resetmax = 45; //not changed in code, but variable if want to change it
+    [SerializeField]
+    private int resetcounter = 0;
+
+    int resetmax = 500; //not changed in code, but variable if want to change it
     int attackcount = 0;
 
     private void Start()
