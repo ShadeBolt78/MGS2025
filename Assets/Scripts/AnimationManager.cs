@@ -1,10 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.Tracing;
+using System.Linq.Expressions;
 using UnityEngine;
 
 public class AnimationManager : MonoBehaviour
 {
-    //static bool hurt = false;
-    //public bool hurtcopy = hurt;
-
     [Header("Identifiers")] // "What player is this?"
     public bool isPlayer1 = false;
     public bool isDuo = false;
@@ -23,13 +24,18 @@ public class AnimationManager : MonoBehaviour
     [SerializeField]
     private int resetcounter = 0;
 
-    int resetmax = 500; //not changed in code, but variable if want to change it
+    int resetmax = 50; //not changed in code, but variable if want to change it
     int attackcount = 0;
+
+    static int duoActive = 0;
+    static int hurtActive = 0;
+
+    static List<int> hurtlanes = new List<int>();
 
     private void Start()
     {
         //do newPos when press
-        InputManager.Instance.OnLanePressed += newPos;
+        InputManager.Instance.OnLanePressed += NewPos;
 
         Vector3 baseP1 = GameObject.Find("Lane1").transform.position;
         Vector3 baseP2 = GameObject.Find("Lane3").transform.position;
@@ -61,23 +67,27 @@ public class AnimationManager : MonoBehaviour
         if (resetcounter <= resetmax) // just to not skyrocket the value when afk
             resetcounter += 1;
 
-       /* hurtcopy = hurt;
-
-        if (hurt)
+        //Check what lane hurt is in, runs for that
+        for (int i = hurtlanes.Count-1 ;i >= 0; i--)
+        {      
+            //runs if (P1 & 0,1,2)  (P2 & 2, 3 ,4)  (isDuo)   (lane is -1 [see below])  ---   maybe rewrite if possible
+            if (((isPlayer1 == (hurtlanes[i] <= 2)) || isDuo || hurtlanes[i] == -1) && transform.position != offscreen)
+            {
+                gameObject.GetComponent<SpriteRenderer>().sprite = sprOuch;
+                hurtActive = 3;
+                if (hurtlanes[i] == 2)  //lets both Ps be hurt if in lane 2 (needs to be run twice)
+                    hurtlanes.Add(-1);
+                hurtlanes.Remove(hurtlanes[i]);
+                }
+        }
+        //Apply stalling for all sprites while hurt
+        if (hurtActive > 0)
         {
-            Debug.Log("test");
+            hurtActive--;
             resetcounter = 0;
-            hurt = false;
-            hurtcopy = hurt;
+        }
 
-            if(hurtcopy)
-                Debug.Log("real");
-
-            gameObject.GetComponent<SpriteRenderer>().sprite = sprOuch;
-
-        }*/
-
-        //reset position of character after attack
+        //Reset position of character code
         if (resetcounter >= resetmax)
         {
             gameObject.GetComponent<SpriteRenderer>().sprite = sprBase;
@@ -94,16 +104,43 @@ public class AnimationManager : MonoBehaviour
     }//END OF UPDATE()
 
     //newPos: Update where character is
-    public void newPos(int lane)
+    public void NewPos(int lane)
     {
-        resetcounter = 0;
-        //hurt = false;
-        //hurtcopy = hurt;
+
+        //Lane Placement Changer
+        if (lane == 2)
+        {
+            duoActive = 2;
+            resetcounter = 0;
+            if (isDuo)//show duo, hide solo
+                transform.position = baseGeneral;
+            else
+                transform.position = offscreen;
+        }
+        else if (lane != 2)
+        {
+            if (duoActive > 0 && !isDuo) // If just leaving Duo lane, make sure both charactes are there, and in base states
+            {
+                transform.position = baseGeneral;
+                duoActive--;
+                gameObject.GetComponent<SpriteRenderer>().sprite = sprBase;
+            }
+            if (isDuo) //hide duo, show solo
+                transform.position = offscreen;
+
+            else if (isPlayer1 == (lane <= 2))
+                transform.position = new Vector3(GameObject.Find("Lane" + lane).transform.position.x - 5.65f,
+                                                 GameObject.Find("Lane" + lane).transform.position.y + 0.5f,
+                                                 GameObject.Find("Lane" + lane).transform.position.z + 0.6f);
+
+        }
+
 
         //Sprite Changer
         // Only operate on single character: 1 2 D
-        if ( (isPlayer1 == (lane <= 2)) || isDuo)  //is P1 & <2   or   P2 & >2   or   Duo
-        { 
+        if ((isPlayer1 == (lane <= 2)) || isDuo)  //is P1 & <2   or   P2 & >2   or   Duo
+        {
+            resetcounter = 0; //in here so it doesnt trigger for all, always
             if (attackcount == 0)
                 gameObject.GetComponent<SpriteRenderer>().sprite = sprAttack1;
             else if (attackcount == 1)
@@ -115,33 +152,14 @@ public class AnimationManager : MonoBehaviour
             }
 
             attackcount += 1;
-        }   
-
-        //Lane Placement Changer
-        if (lane == 2)
-        {
-            if (isDuo)//show duo, hide solo
-                transform.position = baseGeneral;
-            else
-                transform.position = offscreen;
         }
-        else if (lane != 2)
-        {
 
-            if (isDuo) //hide duo, show solo
-                transform.position = offscreen;
-
-            else if ((isPlayer1 && lane <= 2) || (!isPlayer1 && lane >= 2))
-                transform.position = new Vector3(GameObject.Find("Lane"+lane).transform.position.x - 5.65f, 
-                                                 GameObject.Find("Lane" + lane).transform.position.y + 0.5f,
-                                                 GameObject.Find("Lane" + lane).transform.position.z + 0.6f);
-
-        }
     }// END OF NEWPOS()
 
-    public static void missed()
+    public static void Missed(LaneController lane)
     {
-        //hurt = true;
+        hurtlanes.Add(lane.laneIndex);
+
     }
 
 }
