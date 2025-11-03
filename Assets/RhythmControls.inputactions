@@ -66,8 +66,30 @@
                 },
                 {
                     "name": "",
+                    "id": "db2b537c-c956-4548-8a54-b47d4012c02f",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lane0",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "ec79c8f2-c68b-4cd0-9b98-9808f83e86ad",
                     "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lane1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "911f6467-ba19-426a-a417-a9fc09cfea89",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -88,6 +110,28 @@
                 },
                 {
                     "name": "",
+                    "id": "90377c0d-58e8-4369-bcf0-aa28bac29a1e",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lane2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4161c9c7-8cc9-44c5-b203-11b2cb7c2c7f",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lane2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "4662d978-48ea-40e6-a629-73ebe1723666",
                     "path": "<Keyboard>/j",
                     "interactions": "",
@@ -99,8 +143,30 @@
                 },
                 {
                     "name": "",
+                    "id": "c0c16956-26d7-4242-8067-4951868a83cc",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lane3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "738a3b2a-e476-4197-9af4-24f708934c9f",
                     "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lane4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "90b08877-2d31-4888-9ead-5df65a712e94",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -145,6 +211,15 @@
                     "name": "Cancel",
                     "type": "Button",
                     "id": "cebc74a1-fbe2-4e63-8f27-6708e63a25b6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Point",
+                    "type": "Button",
+                    "id": "563e97d4-0a27-4c96-98cf-5a451cdc95c8",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -248,6 +323,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "97dd663a-50f6-45e4-8af1-d516328e0cf5",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Point",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
