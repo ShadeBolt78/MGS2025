@@ -22,7 +22,7 @@ public class AnimationManager : MonoBehaviour
     public Vector3 baseGeneral;
 
     [SerializeField]
-    private int resetcounter = 0;
+    private float resetcounter = 0;
 
     int resetmax = 50; //not changed in code, but variable if want to change it
     int attackcount = 0;
@@ -65,7 +65,7 @@ public class AnimationManager : MonoBehaviour
     {
 
         if (resetcounter <= resetmax) // just to not skyrocket the value when afk
-            resetcounter += 1;
+            resetcounter += 1*Time.deltaTime*60;
 
         //Check what lane hurt is in, runs for that
         for (int i = hurtlanes.Count-1 ;i >= 0; i--)
@@ -142,7 +142,10 @@ public class AnimationManager : MonoBehaviour
         {
             resetcounter = 0; //in here so it doesnt trigger for all, always
             if (attackcount == 0)
+            {
+                //gameObject.transform.localScale = new Vector3(1f, 0.5f, 1f);
                 gameObject.GetComponent<SpriteRenderer>().sprite = sprAttack1;
+            }
             else if (attackcount == 1)
                 gameObject.GetComponent<SpriteRenderer>().sprite = sprAttack2;
             else if (attackcount == 2)
