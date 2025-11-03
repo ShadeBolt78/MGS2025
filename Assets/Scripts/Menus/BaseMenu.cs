@@ -9,6 +9,7 @@ public abstract class BaseMenu : MonoBehaviour
     [Header("Menu Settings")]
     [Tooltip("Root canvas group for fading and enabling/disabling input.")]
     [SerializeField] private CanvasGroup canvasGroup;
+    [SerializeField] private Canvas canvas;
 
     protected bool isOpen = false;
 
@@ -16,6 +17,8 @@ public abstract class BaseMenu : MonoBehaviour
     {
         if (canvasGroup == null)
             canvasGroup = GetComponent<CanvasGroup>();
+        if (canvas == null)
+            canvas = GetComponent<Canvas>();
     }
 
     public virtual void Open()
@@ -42,6 +45,30 @@ public abstract class BaseMenu : MonoBehaviour
         }
         gameObject.SetActive(false);
         OnClose();
+    }
+
+    public virtual void Hide()
+    {
+        if (canvasGroup != null)
+        {
+            canvasGroup.alpha = 0.6f;
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
+        }
+        if (canvas != null)
+            canvas.sortingOrder -= 1;
+    }
+
+    public virtual void Show()
+    {
+        if (canvasGroup != null)
+        {
+            canvasGroup.alpha = 1f;
+            canvasGroup.interactable = true;
+            canvasGroup.blocksRaycasts = true;
+        }
+        if (canvas != null)
+            canvas.sortingOrder += 1;
     }
 
     protected virtual void OnOpen() { }

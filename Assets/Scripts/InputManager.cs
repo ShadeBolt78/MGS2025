@@ -22,6 +22,9 @@ public class InputManager : MonoBehaviour
     public event Action<int> OnLanePressed;
     public event Action<int> OnLaneReleased;
 
+    // Gameplay Pause Action
+    private InputAction gamePauseAction;
+
     // ui actions
     private InputAction pauseAction;
     private InputAction navigateAction;
@@ -89,17 +92,21 @@ public class InputManager : MonoBehaviour
             i++;
         }
 
+        // Assigning gamePause Action and Subscribing to Event
+        gamePauseAction = gameplayMap.FindAction("Pause");
+        gamePauseAction.performed += ctx => OnPausePressed?.Invoke();
+
         Debug.Log($"ControlsManager initialized with {laneActions.Count} lanes.");
     }
 
     private void InitializeUIInputs()
     {
-        pauseAction = uiMap.FindAction("Pause");
+        //pauseAction = uiMap.FindAction("Pause"); - Commented out bcs we want to pause during gameplay
         navigateAction = uiMap.FindAction("Navigate");
         submitAction = uiMap.FindAction("Submit");
         cancelAction = uiMap.FindAction("Cancel");
 
-        pauseAction.performed += ctx => OnPausePressed?.Invoke();
+        //pauseAction.performed += ctx => OnPausePressed?.Invoke();
         navigateAction.performed += ctx => OnNavigate?.Invoke(ctx.ReadValue<Vector2>());
         submitAction.performed += ctx => OnSubmit?.Invoke();
         cancelAction.performed += ctx => OnCancel?.Invoke();
