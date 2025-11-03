@@ -10,10 +10,12 @@ public class HoldNote : NoteBase
 {
     private bool isHolding = false; // there are ways to do this throught the input system that i am choosing not to do
     private bool hasStarted = false;
+
     private float holdTimer = 0f;
     private float totalTime; // the amount of time of the note in seconds
-    private float noteLength; // the physical length of the note
-    private Transform pivotTransform; // reference to the pivot's transform
+    private float noteLength; // the physical length of the note (dependant on speed)
+
+    private Transform pivotTransform; // reference to the pivot's transform for proper stretching
 
     public void Start()
     {
@@ -46,7 +48,7 @@ public class HoldNote : NoteBase
                 holdTimer += Time.deltaTime;
 
                 pivotTransform.localScale = new Vector3(noteLength - ((holdTimer) / totalTime) * speed, 1f, 1f); // shrinks it when it is being held
-                transform.position = new Vector3(transform.position.x + speed * Time.deltaTime, transform.position.y, transform.position.z); // keeps the front of the note in place
+                transform.position += Vector3.right * speed * Time.deltaTime; // keeps the front of the note in place
 
                 if (holdTimer >= (data.parameters["endTime"] - data.time))
                 {
