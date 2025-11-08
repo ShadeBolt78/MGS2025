@@ -44,6 +44,7 @@ public abstract class NoteBase : MonoBehaviour
 
     public virtual void Miss()
     {
+        Health.TakeDamage();
         Destroy(gameObject);
     }
     public abstract void OnKeyPressed();
