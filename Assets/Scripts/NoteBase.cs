@@ -44,6 +44,7 @@ public abstract class NoteBase : MonoBehaviour
 
     public virtual void Miss()
     {
+        AnimationManager.Missed(this.lane);
         Health.TakeDamage();
         Destroy(gameObject);
     }
