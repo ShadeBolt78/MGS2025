@@ -106,7 +106,7 @@ public class AnimationManager : MonoBehaviour
     //newPos: Update where character is
     public void NewPos(int lane)
     {
-
+        
         //Lane Placement Changer
         if (lane == 2)
         {

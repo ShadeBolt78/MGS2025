@@ -2058,7 +2058,7 @@ GameObject:
   - component: {fileID: 1507521919}
   - component: {fileID: 1507521917}
   - component: {fileID: 1507521916}
-  - component: {fileID: 1507521919}
+  - component: {fileID: 1507521920}
   m_Layer: 0
   m_Name: P2
   m_TagString: Untagged
@@ -2185,6 +2185,27 @@ MonoBehaviour:
   m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1507521920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507521915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 921096dc9113ad745820899011d0d82d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationManager
+  isPlayer1: 0
+  isDuo: 0
+  sprBase: {fileID: 21300000, guid: 00369245d9fcc0d4e9c3c3eb01d2190d, type: 3}
+  sprAttack1: {fileID: 21300000, guid: 2248531940234dd4d8381fb989e15fe6, type: 3}
+  sprAttack2: {fileID: 21300000, guid: 83cbbc45c71d3474ca511541a4a1fdfe, type: 3}
+  sprAttack3: {fileID: 21300000, guid: 400726ca7e1c35e4cbdfcd728a89d438, type: 3}
+  sprOuch: {fileID: 21300000, guid: 309e8a55b6915f841933bc686bbfc339, type: 3}
+  baseGeneral: {x: 0, y: 0, z: 0}
+  resetcounter: 0
 --- !u!1 &1541579784
 GameObject:
   m_ObjectHideFlags: 0
@@ -2497,6 +2518,7 @@ GameObject:
   - component: {fileID: 1802928671}
   - component: {fileID: 1802928673}
   - component: {fileID: 1802928674}
+  - component: {fileID: 1802928675}
   m_Layer: 0
   m_Name: P1
   m_TagString: Untagged
@@ -2623,6 +2645,27 @@ MonoBehaviour:
   m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1802928675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1802928670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 921096dc9113ad745820899011d0d82d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationManager
+  isPlayer1: 1
+  isDuo: 0
+  sprBase: {fileID: 21300000, guid: 00369245d9fcc0d4e9c3c3eb01d2190d, type: 3}
+  sprAttack1: {fileID: 21300000, guid: 2248531940234dd4d8381fb989e15fe6, type: 3}
+  sprAttack2: {fileID: 21300000, guid: 83cbbc45c71d3474ca511541a4a1fdfe, type: 3}
+  sprAttack3: {fileID: 21300000, guid: 400726ca7e1c35e4cbdfcd728a89d438, type: 3}
+  sprOuch: {fileID: 21300000, guid: 309e8a55b6915f841933bc686bbfc339, type: 3}
+  baseGeneral: {x: 0, y: 0, z: 0}
+  resetcounter: 0
 --- !u!1 &2022225448
 GameObject:
   m_ObjectHideFlags: 0
@@ -2802,4 +2845,3 @@ SceneRoots:
   - {fileID: 875290944}
   - {fileID: 308570123}
   - {fileID: 311554796}
-
