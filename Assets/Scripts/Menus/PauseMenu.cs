@@ -12,6 +12,9 @@ public class PauseMenu : BaseMenu
     [SerializeField] private Button settingsButton;
     [SerializeField] private Button quitButton;
 
+    [Header("SettingsMenu")] // I do not know what else to call this
+    [SerializeField] private GameObject settingsMenu;
+
     private int selectedIndex = 0;
     private Button[] buttons;
 
@@ -29,6 +32,7 @@ public class PauseMenu : BaseMenu
     protected override void OnOpen()
     {
         Time.timeScale = 0f; // pause gameplay
+        Debug.LogFormat($"Pause menu opened");
         HighlightButton(selectedIndex);
     }
 
@@ -79,7 +83,7 @@ public class PauseMenu : BaseMenu
     private void OpenSettings()
     {
         Debug.Log("Opening settings menu...");
-        // Example: MenuManager.Instance.OpenMenu(settingsMenu);
+        MenuManager.Instance.OpenMenu(settingsMenu);
     }
 
     private void QuitGame()
