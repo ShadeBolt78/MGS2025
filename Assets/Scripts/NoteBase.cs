@@ -38,8 +38,9 @@ public abstract class NoteBase : MonoBehaviour
     /// <returns>Boolean whether the note is in the hitzone or not.</returns>
     public virtual bool IsInHitZone(Transform hitZone)
     {   
-        // calc the distance to the hitzone.
-        return Mathf.Abs(transform.position.x - hitZone.position.x) < 0.5f; // basic timing window
+        var timing = Mathf.Abs(transform.position.x - hitZone.position.x) / speed; // actual timing
+        ScoreManager.Instance.AddScore(timing);
+        return timing < 0.4f; // if timing smaller than largest timing window
     }
 
     public virtual void Miss()
