@@ -484,10 +484,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1489801676}
-  - {fileID: 1912049759}
-  - {fileID: 1307570947}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -509,7 +506,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SettingsMenu
   canvasGroup: {fileID: 162139033}
   canvas: {fileID: 0}
-  returnButton: {fileID: 1912049756}
+  returnButton: {fileID: 0}
 --- !u!1 &169737392
 GameObject:
   m_ObjectHideFlags: 0
@@ -879,7 +876,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 546013500}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -996,9 +993,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 531192579}
-  m_Father: {fileID: 546013500}
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2138,7 +2134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3c18dfabc974714c97695a9ee42ec2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuManager
-  pauseMenu: {fileID: 546013495}
+  pauseMenu: {fileID: 0}
   settingsMenu: {fileID: 162139031}
 --- !u!4 &1064866847
 Transform:
@@ -2187,7 +2183,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 480609340}
-  m_Father: {fileID: 546013500}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2348,6 +2344,7 @@ MonoBehaviour:
   audioSource: {fileID: 413159156}
   tapNotePrefab: {fileID: 5200638745532964819, guid: 5092948592fb29f4093674817df3e82b, type: 3}
   holdNotePrefab: {fileID: 5200638745532964819, guid: c2fa55dc3ffae0d41ab4742c7b2b602e, type: 3}
+  deadNotePrefab: {fileID: 5200638745532964819, guid: 286f60411db448a48aecf20ee47950a5, type: 3}
 --- !u!4 &1177858158
 Transform:
   m_ObjectHideFlags: 0
@@ -3079,9 +3076,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1509582012}
-  m_Father: {fileID: 546013500}
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3596,9 +3592,6 @@ SceneRoots:
   - {fileID: 2022225450}
   - {fileID: 607797197}
   - {fileID: 413159157}
-  - {fileID: 78112240}
-  - {fileID: 531936361}
-  - {fileID: 546013500}
   - {fileID: 162139038}
   - {fileID: 186257894}
   - {fileID: 374937790}
@@ -3611,3 +3604,8 @@ SceneRoots:
   - {fileID: 875290944}
   - {fileID: 308570123}
   - {fileID: 311554796}
+  - {fileID: 367643974}
+  - {fileID: 384886243}
+  - {fileID: 1064866847}
+  - {fileID: 1078849286}
+  - {fileID: 1666710631}
