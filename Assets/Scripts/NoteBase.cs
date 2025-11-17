@@ -9,6 +9,7 @@ public abstract class NoteBase : MonoBehaviour
     protected float speed; // the speed at which the note moves (assigned on instantiation)
     protected LaneController lane; // the lane it's assigned (assigned on instantiation)
     protected BeatmapData.NoteData data; // any other args to be passed to children of the appropriate type (instantiation)
+    public Sprite sprNote;
 
     /// <summary>
     /// Initialize(LaneController, float) is suprisingly not a Mono method and is literally a workaround because
@@ -21,6 +22,8 @@ public abstract class NoteBase : MonoBehaviour
         this.lane = lane; // setters
         this.speed = speed;
         this.data = data;
+       // sprNote = Resources.Load<Sprite>("Assets/Art/DEV/drum-placeholder.png");
+       // gameObject.GetComponent<SpriteRenderer>().sprite = sprNote;
     }
 
     /// <summary>

@@ -86,7 +86,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 00369245d9fcc0d4e9c3c3eb01d2190d, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -147,3 +147,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e3ba1f8009d1104f8a13e23dac38e74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HoldNote
+  sprNote: {fileID: 0}
