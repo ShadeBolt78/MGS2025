@@ -12,9 +12,6 @@ public class PauseMenu : BaseMenu
     [SerializeField] private Button settingsButton;
     [SerializeField] private Button quitButton;
 
-    [Header("SettingsMenu")] // I do not know what else to call this
-    [SerializeField] private GameObject settingsMenu;
-
     private int selectedIndex = 0;
     private Button[] buttons;
 
@@ -83,7 +80,7 @@ public class PauseMenu : BaseMenu
     private void OpenSettings()
     {
         Debug.Log("Opening settings menu...");
-        MenuManager.Instance.OpenMenu(settingsMenu);
+        MenuManager.Instance.OpenSettings();
     }
 
     private void QuitGame()
