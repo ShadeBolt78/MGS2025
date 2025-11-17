@@ -74,6 +74,7 @@ public class LaneController : MonoBehaviour
             if (child.TryGetComponent<NoteBase>(out var note) && note.IsInHitZone(hitZone)) // if the note is not nothing (it happens) and the note thinks its in the hitzone
             {
                 note.OnKeyPressed(); // tell the note it hath been pressed
+                note.ResolveNote();
                 break; // dont need to check the rest, semantically (and design wise) it is impossible for two notes to be in the same place.
             }
         }

@@ -44,9 +44,16 @@ public abstract class NoteBase : MonoBehaviour
 
     public virtual void Miss()
     {
+        data.resolved = true;
         AnimationManager.Missed(this.lane);
         Health.TakeDamage();
         Destroy(gameObject);
     }
     public abstract void OnKeyPressed();
+
+    // Used for when note is hit
+    public void ResolveNote()
+    {
+        data.resolved = true;
+    }
 }

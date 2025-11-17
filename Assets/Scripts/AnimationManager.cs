@@ -60,6 +60,13 @@ public class AnimationManager : MonoBehaviour
 
     }//END OF START()
 
+    private void OnDestroy()
+    {
+        // Unsubscribe from lane press event to prevent MissingReferenceException
+        if (InputManager.Instance != null)
+            InputManager.Instance.OnLanePressed -= NewPos;
+    }
+
     //run every frame
     private void Update()
     {
