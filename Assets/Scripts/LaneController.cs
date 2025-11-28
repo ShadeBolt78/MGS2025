@@ -66,6 +66,7 @@ public class LaneController : MonoBehaviour
     /// <param name="lane">The lane that got proced</param>
     private void HandleLanePress(int lane)
     {
+        bool justHit = false;
         if (lane != laneIndex) return; // fuck off if its not the lane we care about [checkCond]
 
         // Detect closest note in hit zone
@@ -73,9 +74,14 @@ public class LaneController : MonoBehaviour
         {
             if (child.TryGetComponent<NoteBase>(out var note) && note.IsInHitZone(hitZone)) // if the note is not nothing (it happens) and the note thinks its in the hitzone
             {
+                justHit = true;
                 note.OnKeyPressed(); // tell the note it hath been pressed
                 break; // dont need to check the rest, semantically (and design wise) it is impossible for two notes to be in the same place.
             }
+        }
+        if (!justHit)
+        {
+            ScoreManager.Instance.AddScore(1f); //miss
         }
     }
 }
