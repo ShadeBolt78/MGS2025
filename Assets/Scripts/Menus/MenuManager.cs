@@ -13,6 +13,11 @@ public class MenuManager : MonoBehaviour
     private BaseMenu activeMenu;
     private Stack<BaseMenu> OpenedMenus = new Stack<BaseMenu>(); // Stack of menus. So we can backtrack between opened menus.
 
+    // When all menus are closed invoke this action
+    // (This is used to "hand-over" input management to a different manager i.e: MenuManager -> MainMenuManager)
+    // so far used in MainMenuManager and GameManager
+    public event Action menusClosed;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -24,13 +29,11 @@ public class MenuManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    // Used to be OnEnable 
-    // (sometimes OnEnable would be called before Awake)
-    private void Start()
+    private void OnEnable()
     {
         var input = InputManager.Instance;
 
-        input.OnPausePressed += TogglePause;
+        input.OnPausePressed += OpenPause;
         input.OnNavigate += HandleNavigate;
         input.OnSubmit += HandleSubmit;
         input.OnCancel += HandleCancel;
@@ -41,15 +44,20 @@ public class MenuManager : MonoBehaviour
         if (InputManager.Instance == null) return;
         var input = InputManager.Instance;
 
-        input.OnPausePressed -= TogglePause;
+        input.OnPausePressed -= OpenPause;
         input.OnNavigate -= HandleNavigate;
         input.OnSubmit -= HandleSubmit;
         input.OnCancel -= HandleCancel;
     }
 
-    private void TogglePause()
+    public void OpenPause()
     {
         OpenMenu(pauseMenu);
+    }
+
+    public void OpenSettings()
+    {
+        OpenMenu(settingsMenu);
     }
 
     public void OpenMenu(GameObject menuPrefab)
@@ -94,7 +102,7 @@ public class MenuManager : MonoBehaviour
         else
         {
             activeMenu = null;
-            InputManager.Instance.EnableGameplay();
+            menusClosed?.Invoke();
         }
     }
 
@@ -110,7 +118,7 @@ public class MenuManager : MonoBehaviour
 
         OpenedMenus.Clear();
         activeMenu = null;
-        InputManager.Instance.EnableGameplay();
+        menusClosed?.Invoke();
     }
 
     private void HandleNavigate(Vector2 direction)
@@ -131,7 +139,7 @@ public class MenuManager : MonoBehaviour
         }
         else
         {
-            TogglePause(); // fallback — close menu or open pause
+            OpenPause(); // fallback — close menu or open pause
         }
     }
 }

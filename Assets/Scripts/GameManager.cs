@@ -88,6 +88,9 @@ public class GameManager : MonoBehaviour
         audioSource.clip = clip;
         audioSource.Play();
         */
+
+        // Enable gameplay input map
+        InputManager.Instance.EnableGameplay();
     }
 
     /// <summary>
