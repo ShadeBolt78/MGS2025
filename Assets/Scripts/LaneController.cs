@@ -76,6 +76,7 @@ public class LaneController : MonoBehaviour
             {
                 justHit = true;
                 note.OnKeyPressed(); // tell the note it hath been pressed
+                note.ResolveNote();
                 break; // dont need to check the rest, semantically (and design wise) it is impossible for two notes to be in the same place.
             }
         }

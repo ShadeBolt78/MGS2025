@@ -16,6 +16,7 @@ public class BeatmapPlayer
     private float noteTravelDistance; // (GM)
     private int nextNoteIndex = 0; // what note we're gonna be on
 
+
     /// <summary>
     /// Good old constructor
     /// </summary>
@@ -51,5 +52,22 @@ public class BeatmapPlayer
             }
             nextNoteIndex++; // move on to the next one
         }
+    }
+
+    // The endgame screen should only show after all notes have been 
+    // resolved (hit or missed), not just when the last note spawns
+    public bool IsFinished()
+    {
+        // For debuggging
+        for (int i = 0; i < beatmap.notes.Count; i++)
+        {
+            var note = beatmap.notes[i];
+            Debug.Log($"Note {i}: time={note.time}, lane={note.lane}, type={note.type}, resolved={note.resolved}");
+        }
+
+        // Hold notes don't work right now so just check if the last note is resolved
+        // return beatmap.notes.TrueForAll(note => note.resolved);
+
+        return beatmap.notes[beatmap.notes.Count - 1].resolved;
     }
 }

@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+        
         Instance = this; // Assign singleton reference
         string path = System.IO.Path.Combine(Application.streamingAssetsPath, "Beatmaps", beatmapFileName); // makes a nice readble path to the beatmap
         notePrefabs = new Dictionary<string, GameObject>
@@ -99,5 +100,16 @@ public class GameManager : MonoBehaviour
         // swap for audioSource.time when the audioSource is fully implemented
         beatmapPlayer.Update(Time.time);
         //}
+    }
+    
+
+    // The GameManager is in the scene, but not beatmap player, so beatmap player can't be accessed outside of here
+    // beatmapPlayer is private so we need a public method to check if game is done
+    public bool GameIsDone()
+    {
+        if (beatmapPlayer == null)
+            return false;
+
+        return beatmapPlayer.IsFinished();
     }
 }

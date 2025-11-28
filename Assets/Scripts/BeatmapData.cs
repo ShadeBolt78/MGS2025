@@ -28,11 +28,15 @@ public class BeatmapData
         public float time; // the time the note should be spawned
 
         // optionals (params for holding, etc)
-        public Dictionary<string, float> parameters = new(); 
+        public Dictionary<string, float> parameters = new();
         // I admit this is over the top but like, its an easy way to allow for prototyping for other notes types later and keeps the csv readable,
         // which is normally something i would not care about but we have a lot of non-experienced people both in and out of programming so
         // a clearer understanding of architecture wherever it can be implemented is worth its weight in gold in large cooperative environments.
         // it also forces mandatory parameters while allowing any number of optional parameters.
+
+        // whether the note has been hit or missed
+        // needed to determine when game ends
+        public bool resolved = false; 
     }
 
     /// <summary>
