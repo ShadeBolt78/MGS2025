@@ -18,36 +18,47 @@ using Unity.Burst.Intrinsics;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using static ComboVisualHandler;
 
-public class ComboCounterVisuals : MonoBehaviour
+public class ComboVisualHandler : MonoBehaviour
 {
     [SerializeField]
     private TMP_Text comboCountDisplay;
     [SerializeField]
     private Animator comboCounterAnimator; // Top Right Counter
+    [SerializeField]
+    private PlayerComboEmitter p1ComboEmitter; // Player 1 combo emitter
+    private Animator p1ComboEmitterAnimator; // Player 1 combo animator
+    [SerializeField]
+    private PlayerComboEmitter p2ComboEmitter; // Player 2 combo emitter
+    private Animator p2ComboEmitterAnimator; // Player 2 combo animator
 
     // testing stuff
     public int currentComboCount = 0;
+    public int playerID = 0;
     [field: SerializeField] public GameObject perfectCombo;
     [field: SerializeField] public GameObject goodCombo;
     [field: SerializeField] public GameObject missCombo;
-    public int timeBeforeFade;
+    public float timeBeforeFade;
     IEnumerator currentPopUp;
 
 
     // animation name Constants
 
     // counter (top right corner)
-    const string COUNT_DISPLAY_MISS = "";
-    const string COUNT_DISPLAY_GOOD = "";
+    const string COUNT_DISPLAY_MISS = "MissCOMBO";
+    const string COUNT_DISPLAY_GOOD = "GoodCOMBO";
     const string COUNT_DISPLAY_PERFECT = "PerfectCOMBO";
 
     // Pop-ups (shown near player, uses object on player object)
-    const string POP_UP_MISS = "";
-    const string POP_UP_GOOD = "";
+    const string POP_UP_MISS = "POPUP_MISS";
+    const string FADE_MISS = "FADE_MISS";
+    const string POP_UP_GOOD = "POPUP_GOOD";
+    const string FADE_GOOD = "FADE_GOOD";
     const string POP_UP_PERFECT = "POPUP_PERFECT";
     const string FADE_PERFECT = "FADE_PERFECT";
     const string ONGOING_COMBO = "OngoingCombo";
+
 
     private void Start()
     {
@@ -56,51 +67,23 @@ public class ComboCounterVisuals : MonoBehaviour
         missCombo.GetComponent<Button>().onClick.AddListener(HandleComboVisualsMiss);
 
         comboCountDisplay.text = currentComboCount.ToString();
+
+        p1ComboEmitterAnimator = p1ComboEmitter.gameObject.GetComponent<Animator>();
+        p2ComboEmitterAnimator = p2ComboEmitter.gameObject.GetComponent<Animator>();
     }
 
-    //testing method
-
-    public void PopUpComboTimeTester()
-    {
-        if (currentPopUp != null)
-        { 
-            StopCoroutine(currentPopUp);
-        }
-
-        currentPopUp = PopUpCooldown();
-        StartCoroutine(currentPopUp);
-    }
-
-    IEnumerator PopUpCooldown()
-    {
-        comboCounterAnimator.SetBool(ONGOING_COMBO, true);
-        comboCounterAnimator.SetTrigger(POP_UP_PERFECT);
-        yield return new WaitForSeconds(timeBeforeFade);
-        comboCounterAnimator.SetTrigger(FADE_PERFECT);
-
-
-    }
-
-    public void SetOngoingBoolFalse() // Animation event!!!!!
-    {
-        comboCounterAnimator.SetBool(ONGOING_COMBO, false);
-    }
-
+    #region Testing Code for Buttons
     public void HandleComboVisualsMiss()
     {
         currentComboCount = 0;
-        UpdateCount(currentComboCount, ComboType.Miss);
-        AnimateCombo(ComboType.Miss);
-
+        HandleComboVisuals(playerID, ComboType.Miss, currentComboCount);
         Debug.Log("MISS");
     }
 
     public void HandleComboVisualsGood()
     {
         currentComboCount++;
-        UpdateCount(currentComboCount, ComboType.Good);
-        AnimateCombo(ComboType.Good);
-
+        HandleComboVisuals(playerID, ComboType.Good, currentComboCount);
         Debug.Log("GOOD");
 
     }
@@ -108,43 +91,92 @@ public class ComboCounterVisuals : MonoBehaviour
     public void HandleComboVisualsPerfect()
     {
         currentComboCount++;
-        HandleComboVisuals(0, ComboType.Perfect, currentComboCount);
-
+        HandleComboVisuals(playerID, ComboType.Perfect, currentComboCount);
         Debug.Log("PERFECT");
-
     }
+    #endregion
 
     public void HandleComboVisuals(int playerID, ComboType comboType, int currentComboCount)
     {
-        AnimateCombo(comboType);
+        UpdateCount(currentComboCount, comboType);
+        PopUpCombo(playerID, comboType);
+    }
+    
+    #region PopUp Combos
+    public void PopUpCombo(int playerID, ComboType comboType)
+    {
+        if (currentPopUp != null)
+        { 
+            StopCoroutine(currentPopUp);
+        }
 
-        switch (comboType)
+        currentPopUp = PopUpCooldown(playerID, comboType);
+        StartCoroutine(currentPopUp);
+    }
+
+    IEnumerator PopUpCooldown(int playerID, ComboType combo)
+    {
+        Animator currentAnimator;
+
+        // Set Current Animator
+        switch (playerID)
         {
-            case ComboType.Miss:
+            case 0:
                 {
-                    UpdateCount(currentComboCount, comboType);
+                    currentAnimator = p1ComboEmitterAnimator;
                     break;
                 }
-            case ComboType.Good:
+            case 1:
                 {
-                    UpdateCount(currentComboCount, comboType);
-                    break;
-                }
-            case ComboType.Perfect:
-                {
-                    UpdateCount(currentComboCount, comboType);
+                    currentAnimator = p2ComboEmitterAnimator;
                     break;
                 }
             default:
                 {
-                    return;
+                    currentAnimator = p1ComboEmitterAnimator;
+                    break;
                 }
         }
 
-        AnimateCombo(comboType);
+        currentAnimator.SetBool(ONGOING_COMBO, true);
+
+        // Pop Up Emision
+        switch (combo)
+        {
+            case ComboType.Miss:
+                {
+                    // ANIMATE MISS
+                    currentAnimator.SetTrigger(POP_UP_MISS);
+                    yield return new WaitForSeconds(timeBeforeFade);
+                    currentAnimator.SetTrigger(FADE_MISS);
+                    break;
+                }
+            case ComboType.Good:
+                {
+                    // ANIMATE GOOD
+                    currentAnimator.SetTrigger(POP_UP_GOOD);
+                    yield return new WaitForSeconds(timeBeforeFade);
+                    currentAnimator.SetTrigger(FADE_GOOD);
+                    break;
+                }
+            case ComboType.Perfect:
+                {
+                    //ANIMATE PERFECT
+                    currentAnimator.SetTrigger(POP_UP_PERFECT);
+                    yield return new WaitForSeconds(timeBeforeFade);
+                    currentAnimator.SetTrigger(FADE_PERFECT);
+                    break;
+                }
+           
+        }
+
+       
     }
 
-    private void AnimateCombo(ComboType combo)
+    #endregion
+
+    #region Combo Counter
+    private void AnimateComboCount(ComboType combo)
     {
         switch (combo)
         {
@@ -174,8 +206,9 @@ public class ComboCounterVisuals : MonoBehaviour
     private void UpdateCount(int newComboCount, ComboType comboType)
     {
         comboCountDisplay.text = newComboCount.ToString();
+        AnimateComboCount(comboType);
     }
-
+    #endregion
 
     // temporary until more integrated with programming’s mechanics
     public enum ComboType

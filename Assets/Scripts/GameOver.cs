@@ -1,0 +1,32 @@
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class GameOver : MonoBehaviour
+{
+    public GameObject gameOverScreen;
+    [SerializeField] private string retrySceneName = "GameCopy1";
+    [SerializeField] private string quitSceneName = "Quit";
+
+    void Start()
+    {
+        gameOverScreen.SetActive(false);
+    }
+    void Update()
+    {
+        if (Health.health <= 0)
+        {
+            gameOverScreen.SetActive(true);
+            Time.timeScale = 0f; 
+        }
+    }
+    public void Retry()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(retrySceneName);
+    }
+    public void Quit()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(quitSceneName);
+    }
+}

@@ -136,6 +136,15 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""b3c2e57d-dd33-4a61-aa75-7afc1b3430eb"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -435,6 +444,7 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
         m_Gameplay_Lane2 = m_Gameplay.FindAction("Lane2", throwIfNotFound: true);
         m_Gameplay_Lane3 = m_Gameplay.FindAction("Lane3", throwIfNotFound: true);
         m_Gameplay_Lane4 = m_Gameplay.FindAction("Lane4", throwIfNotFound: true);
+        m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Pause = m_UI.FindAction("Pause", throwIfNotFound: true);
@@ -528,6 +538,7 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Lane2;
     private readonly InputAction m_Gameplay_Lane3;
     private readonly InputAction m_Gameplay_Lane4;
+    private readonly InputAction m_Gameplay_Pause;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -559,6 +570,10 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/Lane4".
         /// </summary>
         public InputAction @Lane4 => m_Wrapper.m_Gameplay_Lane4;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/Pause".
+        /// </summary>
+        public InputAction @Pause => m_Wrapper.m_Gameplay_Pause;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -600,6 +615,9 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
             @Lane4.started += instance.OnLane4;
             @Lane4.performed += instance.OnLane4;
             @Lane4.canceled += instance.OnLane4;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         /// <summary>
@@ -626,6 +644,9 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
             @Lane4.started -= instance.OnLane4;
             @Lane4.performed -= instance.OnLane4;
             @Lane4.canceled -= instance.OnLane4;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         /// <summary>
@@ -841,6 +862,13 @@ public partial class @RhythmControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLane4(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Pause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPause(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
