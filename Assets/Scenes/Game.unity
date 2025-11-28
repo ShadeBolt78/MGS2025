@@ -2605,6 +2605,7 @@ MonoBehaviour:
   audioSource: {fileID: 413159156}
   tapNotePrefab: {fileID: 5200638745532964819, guid: 5092948592fb29f4093674817df3e82b, type: 3}
   holdNotePrefab: {fileID: 5200638745532964819, guid: c2fa55dc3ffae0d41ab4742c7b2b602e, type: 3}
+  deadNotePrefab: {fileID: 5200638745532964819, guid: 286f60411db448a48aecf20ee47950a5, type: 3}
 --- !u!4 &1177858158
 Transform:
   m_ObjectHideFlags: 0

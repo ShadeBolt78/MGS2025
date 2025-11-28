@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject tapNotePrefab; // (inspector)
     public GameObject holdNotePrefab; // (inspector)
+    public GameObject deadNotePrefab; // (inspector)
 
     /// <summary>
     /// Awake() is a Monobehavior method, it is run before the first frame after object load and all Start() methods.
@@ -51,7 +52,8 @@ public class GameManager : MonoBehaviour
         notePrefabs = new Dictionary<string, GameObject>
         {
             {"Tap", tapNotePrefab },
-            {"Hold", holdNotePrefab }
+            {"Hold", holdNotePrefab },
+            {"Dead", deadNotePrefab }
         }; // this is a rare instance of hardcoding being ok do to for non dynamic references.
         // the reason why i am storing them in prefabs is because it allows for custom behavior and visual options.
         // you can do it with code yeah but theres a fine line between game programming and programming a game yk. TLDR, use the engine features they save time.
