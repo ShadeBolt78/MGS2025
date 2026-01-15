@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class LanePrefabController : MonoBehaviour
 {
+    public enum Side
+    {
+        Left,
+        Right,
+    }
+
     public int laneIndex; // technically an ID
 
     // note spawn coords (inspector)
