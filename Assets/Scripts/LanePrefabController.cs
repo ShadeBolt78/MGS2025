@@ -25,6 +25,9 @@ public class LanePrefabController : MonoBehaviour
 
     private Dictionary<string, GameObject> notePrefabs;
 
+    // Should be updated by parent objects to change the behaviour of the `Scroll` method
+    public float step = 1;
+
     /// <summary>
     /// Awake() is a Monobehavior method, it is run before the first frame after object load and all Start() methods.
     /// </summary>
@@ -59,6 +62,24 @@ public class LanePrefabController : MonoBehaviour
     private void OnDestroy()
     {
         InputManager.Instance.OnLanePressed -= HandleLanePress; // unsubs (see Start())
+    }
+
+    /// <summary>
+    /// Move notes 1 'step' to the left or right. Responsible for deleting notes that move into the
+    /// kill zones.
+    /// </summary>
+    public void Scroll(Side side)
+    {
+        var step = this.step * (side == Side.Left ? -1 : 1);
+        foreach (var note in GetComponentsInChildren<NoteBase>())
+        {
+            note.transform.position += new Vector3(step, 0, 0);
+            if (note.transform.position.x < spawnLeft.transform.position.x ||
+                    note.transform.position.x > spawnRight.transform.position.x)
+            {
+                Destroy(note);
+            }
+        }
     }
 
     /// <summary>
