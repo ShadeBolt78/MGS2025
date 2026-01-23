@@ -16,6 +16,10 @@ public class AnimationManager : MonoBehaviour
     public Sprite sprAttack2;
     public Sprite sprAttack3;
     public Sprite sprOuch;
+    public SpriteRenderer spriteRenderer;
+
+    private Sprite currentSprite;
+    private Animator animator;
 
     //Off-screen Location Vector 
     Vector3 offscreen = new Vector3(-10f, 0.5f, 1.1f);
@@ -41,7 +45,10 @@ public class AnimationManager : MonoBehaviour
         Vector3 baseP2 = GameObject.Find("Lane3").transform.position;
         Vector3 basePDuo = GameObject.Find("Lane2").transform.position;
 
+        animator = GetComponent<Animator>();
+
         //Set up general position
+        // General positions are bugged due to new pivots, pls adjust
         if (isPlayer1 && !isDuo) //P1
         {                               //-5.65, 0.5, 2.6
             baseGeneral = new Vector3(baseP1.x - 5.65f, baseP1.y + 0.5f, baseP1.z + 0.6f);
@@ -80,7 +87,8 @@ public class AnimationManager : MonoBehaviour
             //runs if (P1 & 0,1,2)  (P2 & 2, 3 ,4)  (isDuo)   (lane is -1 [see below])  ---   maybe rewrite if possible
             if (((isPlayer1 == (hurtlanes[i] <= 2)) || isDuo || hurtlanes[i] == -1) && transform.position != offscreen)
             {
-                gameObject.GetComponent<SpriteRenderer>().sprite = sprOuch;
+                animator.SetTrigger("anim_change");
+                currentSprite = sprOuch;
                 hurtActive = 3;
                 if (hurtlanes[i] == 2)  //lets both Ps be hurt if in lane 2 (needs to be run twice)
                     hurtlanes.Add(-1);
@@ -97,7 +105,7 @@ public class AnimationManager : MonoBehaviour
         //Reset position of character code
         if (resetcounter >= resetmax)
         {
-            gameObject.GetComponent<SpriteRenderer>().sprite = sprBase;
+            spriteRenderer.sprite = sprBase;
             attackcount = 0;
 
             if (isDuo) //PDuo
@@ -130,7 +138,7 @@ public class AnimationManager : MonoBehaviour
             {
                 transform.position = baseGeneral;
                 duoActive--;
-                gameObject.GetComponent<SpriteRenderer>().sprite = sprBase;
+                currentSprite = sprBase;
             }
             if (isDuo) //hide duo, show solo
                 transform.position = offscreen;
@@ -147,22 +155,26 @@ public class AnimationManager : MonoBehaviour
         // Only operate on single character: 1 2 D
         if ((isPlayer1 == (lane <= 2)) || isDuo)  //is P1 & <2   or   P2 & >2   or   Duo
         {
+            //animator.SetTrigger("anim_change");
+
             resetcounter = 0; //in here so it doesnt trigger for all, always
             if (attackcount == 0)
             {
                 //gameObject.transform.localScale = new Vector3(1f, 0.5f, 1f);
-                gameObject.GetComponent<SpriteRenderer>().sprite = sprAttack1;
+                currentSprite = sprAttack1;
             }
             else if (attackcount == 1)
-                gameObject.GetComponent<SpriteRenderer>().sprite = sprAttack2;
+                currentSprite = sprAttack2;
             else if (attackcount == 2)
             {
-                gameObject.GetComponent<SpriteRenderer>().sprite = sprAttack3;
+                currentSprite = sprAttack3;
                 attackcount = -1; //cus of the +1 below
             }
 
             attackcount += 1;
+
         }
+        animator.SetTrigger("anim_change");
 
     }// END OF NEWPOS()
 
@@ -170,6 +182,11 @@ public class AnimationManager : MonoBehaviour
     {
         hurtlanes.Add(lane.laneIndex);
 
+    }
+
+    public void changeSprite()
+    {
+        spriteRenderer.sprite = currentSprite;
     }
 
 }
