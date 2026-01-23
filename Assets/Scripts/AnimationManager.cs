@@ -38,6 +38,7 @@ public class AnimationManager : MonoBehaviour
 
     private void Start()
     {
+        //NOTE: the idle seems to trigger more than once somewhere, investigate!
         //do newPos when press
         InputManager.Instance.OnLanePressed += NewPos;
 
