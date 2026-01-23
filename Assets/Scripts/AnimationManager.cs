@@ -51,17 +51,17 @@ public class AnimationManager : MonoBehaviour
         // General positions are bugged due to new pivots, pls adjust
         if (isPlayer1 && !isDuo) //P1
         {                               //-5.65, 0.5, 2.6
-            baseGeneral = new Vector3(baseP1.x - 5.65f, baseP1.y + 0.5f, baseP1.z + 0.6f);
+            baseGeneral = new Vector3(baseP1.x - 5.5f, baseP1.y - 0.25f, baseP1.z + 0.15f);
             transform.position = baseGeneral;
         }
         else if (!isPlayer1 && !isDuo) // P2
         {
-            baseGeneral = new Vector3(baseP2.x - 5.65f, baseP2.y + 0.5f, baseP2.z + 0.6f);
+            baseGeneral = new Vector3(baseP2.x - 5.5f, baseP2.y - 0.25f, baseP2.z + 0.15f);
             transform.position = baseGeneral;
         }
         else if (isDuo) //hide duo as default
         {
-            baseGeneral = new Vector3(basePDuo.x - 5.65f, basePDuo.y + 0.5f, basePDuo.z + 0.6f);
+            baseGeneral = new Vector3(basePDuo.x - 5.5f, basePDuo.y - 0.25f, basePDuo.z + 0.15f);
             transform.position = offscreen; // hide Duo as default
         }
 
@@ -106,6 +106,7 @@ public class AnimationManager : MonoBehaviour
         if (resetcounter >= resetmax)
         {
             spriteRenderer.sprite = sprBase;
+            animator.SetTrigger("anim_change");
             attackcount = 0;
 
             if (isDuo) //PDuo
@@ -144,9 +145,9 @@ public class AnimationManager : MonoBehaviour
                 transform.position = offscreen;
 
             else if (isPlayer1 == (lane <= 2))
-                transform.position = new Vector3(GameObject.Find("Lane" + lane).transform.position.x - 5.65f,
-                                                 GameObject.Find("Lane" + lane).transform.position.y + 0.5f,
-                                                 GameObject.Find("Lane" + lane).transform.position.z + 0.6f);
+                transform.position = new Vector3(GameObject.Find("Lane" + lane).transform.position.x - 5.5f,
+                                                 GameObject.Find("Lane" + lane).transform.position.y - 0.25f,
+                                                 GameObject.Find("Lane" + lane).transform.position.z + 0.15f);
 
         }
 
