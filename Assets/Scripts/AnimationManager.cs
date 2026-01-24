@@ -18,7 +18,6 @@ public class AnimationManager : MonoBehaviour
     public Sprite sprOuch;
     public SpriteRenderer spriteRenderer;
 
-    private Sprite currentSprite;
     private Animator animator;
 
     //Off-screen Location Vector 
@@ -80,21 +79,22 @@ public class AnimationManager : MonoBehaviour
     {
 
         if (resetcounter <= resetmax) // just to not skyrocket the value when afk
-            resetcounter += 1*Time.deltaTime*60;
+            resetcounter += 1 * Time.deltaTime * 60;
 
         //Check what lane hurt is in, runs for that
-        for (int i = hurtlanes.Count-1 ;i >= 0; i--)
-        {      
+        for (int i = hurtlanes.Count - 1; i >= 0; i--)
+        {
             //runs if (P1 & 0,1,2)  (P2 & 2, 3 ,4)  (isDuo)   (lane is -1 [see below])  ---   maybe rewrite if possible
             if (((isPlayer1 == (hurtlanes[i] <= 2)) || isDuo || hurtlanes[i] == -1) && transform.position != offscreen)
             {
-                animator.SetTrigger("anim_change");
-                currentSprite = sprOuch;
+                animator.Play("Bounce");
+                animator.Play("Bounce2");
+                spriteRenderer.sprite = sprOuch;
                 hurtActive = 3;
                 if (hurtlanes[i] == 2)  //lets both Ps be hurt if in lane 2 (needs to be run twice)
                     hurtlanes.Add(-1);
                 hurtlanes.Remove(hurtlanes[i]);
-                }
+            }
         }
         //Apply stalling for all sprites while hurt
         if (hurtActive > 0)
@@ -107,7 +107,11 @@ public class AnimationManager : MonoBehaviour
         if (resetcounter >= resetmax)
         {
             spriteRenderer.sprite = sprBase;
-            animator.SetTrigger("anim_change");
+            if ((isPlayer1 != isDuo) || (!isPlayer1 && !isDuo))
+            {
+                animator.Play("Bounce3");
+            }
+
             attackcount = 0;
 
             if (isDuo) //PDuo
@@ -123,7 +127,6 @@ public class AnimationManager : MonoBehaviour
     //newPos: Update where character is
     public void NewPos(int lane)
     {
-        
         //Lane Placement Changer
         if (lane == 2)
         {
@@ -140,7 +143,7 @@ public class AnimationManager : MonoBehaviour
             {
                 transform.position = baseGeneral;
                 duoActive--;
-                currentSprite = sprBase;
+                spriteRenderer.sprite = sprBase;
             }
             if (isDuo) //hide duo, show solo
                 transform.position = offscreen;
@@ -157,26 +160,30 @@ public class AnimationManager : MonoBehaviour
         // Only operate on single character: 1 2 D
         if ((isPlayer1 == (lane <= 2)) || isDuo)  //is P1 & <2   or   P2 & >2   or   Duo
         {
-            //animator.SetTrigger("anim_change");
 
             resetcounter = 0; //in here so it doesnt trigger for all, always
             if (attackcount == 0)
             {
                 //gameObject.transform.localScale = new Vector3(1f, 0.5f, 1f);
-                currentSprite = sprAttack1;
+                spriteRenderer.sprite = sprAttack1;
             }
             else if (attackcount == 1)
-                currentSprite = sprAttack2;
+            {
+                spriteRenderer.sprite = sprAttack2;
+            }
             else if (attackcount == 2)
             {
-                currentSprite = sprAttack3;
+                spriteRenderer.sprite = sprAttack3;
                 attackcount = -1; //cus of the +1 below
             }
 
+            animator.Play("Bounce");
+            animator.Play("Bounce2");
+
             attackcount += 1;
 
+
         }
-        animator.SetTrigger("anim_change");
 
     }// END OF NEWPOS()
 
@@ -186,9 +193,6 @@ public class AnimationManager : MonoBehaviour
 
     }
 
-    public void changeSprite()
-    {
-        spriteRenderer.sprite = currentSprite;
-    }
+ 
 
 }
