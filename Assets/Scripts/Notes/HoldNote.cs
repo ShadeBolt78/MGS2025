@@ -56,9 +56,7 @@ public class HoldNote : NoteBase
 
     public override bool IsInHitZone(Transform hitZone)
     {
-        var timing = Mathf.Abs(transform.position.x - hitZone.position.x) / speed; // actual timing
-        ScoreManager.Instance.AddScore(timing);
-        return timing < 0.4f || transform.position.x <= hitZone.position.x; // if timing smaller than largest timing window OR head has gone past (you wont get score for this)
+        return base.IsInHitZone(hitZone) || transform.position.x <= hitZone.position.x; // if timing smaller than largest timing window OR head has gone past (you wont get score for this)
     }
 
     public override void OnKeyPressed()
@@ -85,6 +83,10 @@ public class HoldNote : NoteBase
         {
             AnimationManager.Missed(this.lane);
             Health.TakeDamage(damageIncrement);
+        }
+        if(hasStarted && InputManager.Instance.IsLaneHeld(lane.laneIndex))
+        {
+            Health.Regen(regenIncrement);
         }
     }
 
