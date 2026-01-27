@@ -9,6 +9,8 @@ public abstract class NoteBase : MonoBehaviour
     protected float speed; // the speed at which the note moves (assigned on instantiation)
     protected LaneController lane; // the lane it's assigned (assigned on instantiation)
     protected BeatmapData.NoteData data; // any other args to be passed to children of the appropriate type (instantiation)
+    protected float damageIncrement; // health the player(s) will lose when missing the note
+    protected float regenIncrement; // health the player(s) will gain when missing the note
 
     /// <summary>
     /// Initialize(LaneController, float) is suprisingly not a Mono method and is literally a workaround because
@@ -47,7 +49,7 @@ public abstract class NoteBase : MonoBehaviour
     {
         data.resolved = true;
         AnimationManager.Missed(this.lane);
-        Health.TakeDamage();
+        Health.TakeDamage(damageIncrement);
         Destroy(gameObject);
     }
     public abstract void OnKeyPressed();
