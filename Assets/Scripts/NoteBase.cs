@@ -10,6 +10,13 @@ public abstract class NoteBase : MonoBehaviour
     protected LanePrefabController lane; // the lane it's assigned (assigned on instantiation)
     protected BeatmapData.NoteData data; // any other args to be passed to children of the appropriate type (instantiation)
 
+    // Remove itself from the engine world, then return the data it holds
+    public BeatmapData.NoteData Decay()
+    {
+        Destroy(this);
+        return data;
+    }
+
 
     public bool testMove = true;
     /// <summary>
