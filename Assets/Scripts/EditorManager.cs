@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
+using System;
 
 public class EditorManager : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class EditorManager : MonoBehaviour
     private Transform leftSpawnZone;
 
     public string beatmapFileName;
+    private BeatmapData beatmap;
     public LanePrefabController[] lanes;
     public AudioSource audioSource;
     public Dictionary<string, GameObject> notePrefabs;
@@ -20,6 +23,8 @@ public class EditorManager : MonoBehaviour
     public GameObject deadNotePrefab;
 
     private int lane = 0;
+    private bool addingHoldNote = false;
+    private string selectedNoteType = "Tap";
 
     void Awake()
     {
@@ -56,5 +61,37 @@ public class EditorManager : MonoBehaviour
             return;
         }
         lane = index;
+    }
+
+    public void Edit()
+    {
+        var selected = lanes[lane];
+
+        if (addingHoldNote)
+        {
+            // If we are in the middle of adding a HoldNote, end and add the HoldNote
+            addingHoldNote = false;
+            selected.EndSpawnSpecial(ref beatmap);
+            return;
+        }
+        try
+        {
+            // This logic will probably require improvement later
+            beatmap.notes.Remove(selected.GetComponents<NoteBase>()
+                .Where(note => note.transform.position.x == selected.specialZone.position.x)
+                .First()
+                .Decay());
+            beatmap.Save();
+            return;
+        }
+        catch (InvalidOperationException e) // if this exception fired, theres no note
+        {
+            _ = e;
+        }
+
+        // If we're still running, neither of the two blocks succeeded, so we should add a note
+        if (selectedNoteType == "Hold")
+            addingHoldNote = true;
+        selected.BeginSpawnSpecial(selectedNoteType, ref beatmap);
     }
 }
