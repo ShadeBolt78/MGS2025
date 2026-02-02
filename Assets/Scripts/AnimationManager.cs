@@ -10,7 +10,7 @@ public class AnimationManager : MonoBehaviour
     public bool isPlayer1 = false;
     public bool isDuo = false;
 
-    [Header("Sprites")]
+    [Header("Sprites")] //
     public Sprite sprBase;
     public Sprite sprAttack1;
     public Sprite sprAttack2;
