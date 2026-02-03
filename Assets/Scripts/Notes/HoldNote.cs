@@ -63,6 +63,7 @@ public class HoldNote : NoteBase
                 if (holdTimer >= (data.parameters["endTime"] - data.time))
                 {
                     Destroy(gameObject);
+                    UltimateSystem.IncrementUltimate(); //increments the ults progression bar
                     // successful note completion (might want to add something to NoteBase for this)
                 }
             }
