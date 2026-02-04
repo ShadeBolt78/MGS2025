@@ -88,7 +88,7 @@ public class AnimationManager : MonoBehaviour
             if (((isPlayer1 == (hurtlanes[i] <= 2)) || isDuo || hurtlanes[i] == -1) && transform.position != offscreen)
             {
                 animator.Play("Bounce");
-                animator.Play("Bounce2");
+                //animator.Play("Bounce2");
                 spriteRenderer.sprite = sprOuch;
                 hurtActive = 3;
                 if (hurtlanes[i] == 2)  //lets both Ps be hurt if in lane 2 (needs to be run twice)
@@ -109,7 +109,7 @@ public class AnimationManager : MonoBehaviour
             spriteRenderer.sprite = sprBase;
             if ((isPlayer1 != isDuo) || (!isPlayer1 && !isDuo))
             {
-                animator.Play("Bounce3");
+                animator.Play("Bounce-Idle");
             }
 
             attackcount = 0;
@@ -178,7 +178,7 @@ public class AnimationManager : MonoBehaviour
             }
 
             animator.Play("Bounce");
-            animator.Play("Bounce2");
+            //animator.Play("Bounce2");
 
             attackcount += 1;
 

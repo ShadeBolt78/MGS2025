@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: b3d065f4466a15c41abadcda4e6f569a
+guid: d9701803daf539e4c884200f99fe5f46
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4810254067847216720
-    second: Mona_Idle-3_0
+      213: 5982662843893007819
+    second: lu-attack-2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Mona_Idle-3_0
+      name: lu-attack-2_0
       rect:
         serializedVersion: 2
-        x: 189
-        y: 19
-        width: 611
-        height: 816
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 121
+        y: 12
+        width: 744
+        height: 938
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 05e3961c69471c240800000000000000
-      internalID: 4810254067847216720
+      spriteID: bc5cb25b820b60350800000000000000
+      internalID: 5982662843893007819
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: d6466f1ad014bf5469734c00166cbf7e
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Mona_Idle-3_0: 4810254067847216720
+      lu-attack-2_0: 5982662843893007819
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
