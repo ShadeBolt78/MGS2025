@@ -136,4 +136,8 @@ public class EditorManager : MonoBehaviour
     {
         Scroll(LanePrefabController.Side.Right);
     }
+    public void Back()
+    {
+        BaseManager.MainMenu();
+    }
 }
