@@ -4,7 +4,7 @@ using System;
 
 public class EditorManager : MonoBehaviour
 {
-    EditorManager Instance;
+    public static EditorManager Instance { get; private set; }
 
     public string beatmapFileName;
     private BeatmapData beatmap;
@@ -29,6 +29,7 @@ public class EditorManager : MonoBehaviour
         if (BaseManager.Instance != null)
         {
             beatmapFileName = BaseManager.Instance.beatmapFileName;
+            beatmap = BaseManager.Instance.beatmap;
             lanes = BaseManager.Instance.lanes;
             audioSource = BaseManager.Instance.audioSource;
         }
@@ -91,7 +92,7 @@ public class EditorManager : MonoBehaviour
             beatmap.Save();
             return;
         }
-        catch (InvalidOperationException e) // if this exception fired, theres no note
+        catch (Exception e) when (e is InvalidOperationException || e is NullReferenceException) // if this exception fired, theres no note
         {
             _ = e;
         }
