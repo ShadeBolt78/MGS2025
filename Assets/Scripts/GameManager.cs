@@ -25,49 +25,34 @@ public class GameManager : MonoBehaviour
     //public float noteTravelDistance = 10f; // i need this for later {artifact}
     public float noteSpeed = 5f; // i need this for later!
     public Transform hitZone; // hit zone for notes (inspector)
-    // the killzone is set a trigger collider and handles note deletion on its own.
+                              // the killzone is set a trigger collider and handles note deletion on its own.
 
-    [Header("Beatmap")]
-    public string beatmapFileName = "fuckoff.json"; // A file name in /StreamingAssets/Beatmaps
     private BeatmapData beatmap; // the beatmap to run
     private BeatmapPlayer beatmapPlayer; // the beatmap runner
 
-    [Header("Hooks")]
-    public LanePrefabController[] lanes; // Lane hooks (inspector)
-    public AudioSource audioSource; // audio hook (inspector)
-    public Dictionary<string, GameObject> notePrefabs; // reference storage for parsing from csv (GM)
-    // "erm 🤓 what about enums?" fuck off like actually.
-
-    public GameObject tapNotePrefab; // (inspector)
-    public GameObject holdNotePrefab; // (inspector)
-    public GameObject deadNotePrefab; // (inspector)
-
+    private LanePrefabController[] lanes; // Lane hooks
+    private AudioSource audioSource; // audio hook 
+    ///
     /// <summary>
     /// Awake() is a Monobehavior method, it is run before the first frame after object load and all Start() methods.
     /// </summary>
     private void Awake()
     {
-        
+
         Instance = this; // Assign singleton reference
-        string path = System.IO.Path.Combine(Application.streamingAssetsPath, "Beatmaps", beatmapFileName); // makes a nice readble path to the beatmap
-        notePrefabs = new Dictionary<string, GameObject>
+
+        if (BaseManager.Instance != null)
         {
-            {"Tap", tapNotePrefab },
-            {"Hold", holdNotePrefab },
-            {"Dead", deadNotePrefab }
-        }; // this is a rare instance of hardcoding being ok do to for non dynamic references.
-        // the reason why i am storing them in prefabs is because it allows for custom behavior and visual options.
-        // you can do it with code yeah but theres a fine line between game programming and programming a game yk. TLDR, use the engine features they save time.
-        beatmap = BeatmapData.Load(path);
+            beatmap = BaseManager.Instance.beatmap;
+            lanes = BaseManager.Instance.lanes;
+            audioSource = BaseManager.Instance.audioSource;
+        }
+        else
+            Debug.LogError("BaseManager singleton has not been instantiated. Did you forget to load the Base scene?");
+
         foreach (var lane in lanes) // set hitzone for each lane
         {
             lane.specialZone = hitZone;
-        }
-        if (beatmap == null)
-        {
-            Debug.LogError("Failed to load beatmap. Abort!");
-            enabled = false;
-            return; // basically just tell it to break to avoid any loops
         }
         beatmapPlayer = new BeatmapPlayer(beatmap, lanes, noteSpeed);
         //secondsPerBeat = 60f / bpm; // Seconds in each beat is just the bpm converted to seconds reciprocal.
@@ -78,16 +63,16 @@ public class GameManager : MonoBehaviour
         // uncomment this when you add some audioclips in the proper path
         // which is Assets/Resources/Audio/
         /*
-        AudioClip clip = Resources.Load<AudioClip>(beatmap.songPath); // grab the associated beatmap audio
-        if (clip == null) // error catching
-        {
-            Debug.LogError($"No song at Resources/{beatmap.songPath}");
-            return;
-        }
+           AudioClip clip = Resources.Load<AudioClip>(beatmap.songPath); // grab the associated beatmap audio
+           if (clip == null) // error catching
+           {
+           Debug.LogError($"No song at Resources/{beatmap.songPath}");
+           return;
+           }
 
-        audioSource.clip = clip;
-        audioSource.Play();
-        */
+           audioSource.clip = clip;
+           audioSource.Play();
+           */
 
         // Enable gameplay input map
         InputManager.Instance.EnableGameplay();
@@ -104,7 +89,7 @@ public class GameManager : MonoBehaviour
         beatmapPlayer.Update(Time.time);
         //}
     }
-    
+
 
     // The GameManager is in the scene, but not beatmap player, so beatmap player can't be accessed outside of here
     // beatmapPlayer is private so we need a public method to check if game is done
