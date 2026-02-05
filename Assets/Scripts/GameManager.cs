@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -31,6 +32,13 @@ public class GameManager : MonoBehaviour
     public string beatmapFileName = "fuckoff.json"; // A file name in /StreamingAssets/Beatmaps
     private BeatmapData beatmap; // the beatmap to run
     private BeatmapPlayer beatmapPlayer; // the beatmap runner
+
+    [Header("Pulse Settings")]
+    public float bpm; // Taken from beatmap data
+    public float secondsPerBeat; // (Awake()) due to calculation
+    private float lastPulseTime = 0; // The time of which the last pulse was triggered
+
+    public event Action OnPulse; // Pulse Action
 
     [Header("Hooks")]
     public LaneController[] lanes; // Lane hooks (inspector)
@@ -70,7 +78,8 @@ public class GameManager : MonoBehaviour
             return; // basically just tell it to break to avoid any loops
         }
         beatmapPlayer = new BeatmapPlayer(beatmap, lanes, noteSpeed);
-        //secondsPerBeat = 60f / bpm; // Seconds in each beat is just the bpm converted to seconds reciprocal.
+        bpm = beatmap.bpm;
+        secondsPerBeat = 60f / bpm; // Seconds in each beat is just the bpm converted to seconds reciprocal.
     }
 
     private void Start()
@@ -102,6 +111,12 @@ public class GameManager : MonoBehaviour
         //{
         // swap for audioSource.time when the audioSource is fully implemented
         beatmapPlayer.Update(Time.time);
+        if (Time.time - secondsPerBeat >= lastPulseTime)
+        {
+            lastPulseTime += secondsPerBeat;
+            // PULSE
+            OnPulse?.Invoke();
+        }
         //}
     }
     
