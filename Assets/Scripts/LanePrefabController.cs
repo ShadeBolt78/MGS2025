@@ -28,7 +28,7 @@ public class LanePrefabController : MonoBehaviour
     private Dictionary<string, GameObject> notePrefabs;
 
     // Should be updated by parent objects to change the behaviour of the `Scroll` method
-    public float step = 1;
+    public static float step = .01f;
     // Offset based on scrolling
     public float Offset { get; private set; }
     // Indiciates whether or not we are currently trying to spawn a HoldNote, and if so, what the
@@ -77,12 +77,7 @@ public class LanePrefabController : MonoBehaviour
     /// </summary>
     public void Scroll(Side side)
     {
-        float s = 0.01f;
-        var step = this.step * (side == Side.Left ? -1 : 1) * s;
-        if (spawningHold is not null && (Offset + step) <= spawningHold)
-        {
-            return;
-        }
+        var step = LanePrefabController.step * (side == Side.Left ? -1 : 1);
         foreach (var note in GetComponentsInChildren<NoteBase>())
         {
             note.transform.position += new Vector3(step, 0, 0);
