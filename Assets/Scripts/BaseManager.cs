@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Singleton exposing GameObjects in the `Base` scene to the Game and Editor Managers,
@@ -27,5 +28,10 @@ public class BaseManager : MonoBehaviour
             return; // basically just tell it to break to avoid any loops
         }
         Instance = this;
+    }
+
+    public static void MainMenu()
+    {
+        SceneManager.LoadScene("MainMenu-Copy", LoadSceneMode.Single);
     }
 }
