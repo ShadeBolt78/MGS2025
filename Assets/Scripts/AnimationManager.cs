@@ -14,14 +14,13 @@ public class AnimationManager : MonoBehaviour
     public Sprite sprBase;
     public Sprite sprAttack1;
     public Sprite sprAttack2;
-    public Sprite sprAttack3;
     public Sprite sprOuch;
     public SpriteRenderer spriteRenderer;
 
     private Animator animator;
 
     //Off-screen Location Vector 
-    Vector3 offscreen = new Vector3(-10f, 0.5f, 1.1f);
+    Vector3 offscreen = new Vector3(-13f, 0.5f, 1.1f);
     public Vector3 baseGeneral;
 
     [SerializeField]
@@ -51,17 +50,17 @@ public class AnimationManager : MonoBehaviour
         // General positions are bugged due to new pivots, pls adjust
         if (isPlayer1 && !isDuo) //P1
         {                               //-5.65, 0.5, 2.6
-            baseGeneral = new Vector3(baseP1.x - 5.5f, baseP1.y - 0.25f, baseP1.z + 0.15f);
+            baseGeneral = new Vector3(baseP1.x - 7f, baseP1.y - 0.25f, baseP1.z + 1f);
             transform.position = baseGeneral;
         }
         else if (!isPlayer1 && !isDuo) // P2
         {
-            baseGeneral = new Vector3(baseP2.x - 5.5f, baseP2.y - 0.25f, baseP2.z + 0.15f);
+            baseGeneral = new Vector3(baseP2.x - 7f, baseP2.y - 0.25f, baseP2.z - 0.5f);
             transform.position = baseGeneral;
         }
         else if (isDuo) //hide duo as default
         {
-            baseGeneral = new Vector3(basePDuo.x - 5.5f, basePDuo.y - 0.25f, basePDuo.z + 0.15f);
+            baseGeneral = new Vector3(basePDuo.x - 6.9f, basePDuo.y - 0.25f, basePDuo.z + 0.15f);
             transform.position = offscreen; // hide Duo as default
         }
 
@@ -170,10 +169,6 @@ public class AnimationManager : MonoBehaviour
             else if (attackcount == 1)
             {
                 spriteRenderer.sprite = sprAttack2;
-            }
-            else if (attackcount == 2)
-            {
-                spriteRenderer.sprite = sprAttack3;
                 attackcount = -1; //cus of the +1 below
             }
 
