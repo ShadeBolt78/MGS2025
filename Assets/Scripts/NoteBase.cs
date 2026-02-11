@@ -6,7 +6,6 @@ using UnityEngine;
 /// </summary>
 public abstract class NoteBase : MonoBehaviour
 {
-    protected float speed; // the speed at which the note moves (assigned on instantiation)
     protected LanePrefabController lane; // the lane it's assigned (assigned on instantiation)
     protected BeatmapData.NoteData data; // any other args to be passed to children of the appropriate type (instantiation)
 
@@ -18,17 +17,16 @@ public abstract class NoteBase : MonoBehaviour
     }
 
 
-    public bool testMove = true;
+    public bool testMove = false;
     /// <summary>
     /// Initialize(LaneController, float) is suprisingly not a Mono method and is literally a workaround because
     /// Mono's can't have constructors. This is called in LaneController on note instantiation.
     /// </summary>
     /// <param name="lane">The lane the note belongs to.</param>
     /// <param name="speed">The speed the note moves at down the lane.</param>
-    public virtual void Initialize(LanePrefabController lane, float speed, BeatmapData.NoteData data)
+    public virtual void Initialize(LanePrefabController lane, BeatmapData.NoteData data)
     {
         this.lane = lane; // setters
-        this.speed = speed;
         this.data = data;
     }
 
@@ -37,9 +35,7 @@ public abstract class NoteBase : MonoBehaviour
     /// </summary>
     protected virtual void Update()
     {
-        if (testMove)
-            lane.Scroll(LanePrefabController.Side.Left);
-        //transform.position += Vector3.left * speed * Time.deltaTime; // translate its ass down the lane.
+
     }
 
     /// <summary>

@@ -105,7 +105,7 @@ public class EditorManager : MonoBehaviour
 
     public void Scroll(LanePrefabController.Side side)
     {
-        var step = LanePrefabController.step * (side == LanePrefabController.Side.Left ? -1 : 1);
+        var step = LanePrefabController.stepSize * (side == LanePrefabController.Side.Left ? -1 : 1);
         // Don't allow the timeline to go further left of where we've already started placing a hold
         // note
         if (addingHoldNote is not null && trackTime + step <= addingHoldNote)

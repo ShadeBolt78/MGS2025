@@ -147,3 +147,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67a1d4045055ae140b3cdca186fcda49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TapNote
+  testMove: 0

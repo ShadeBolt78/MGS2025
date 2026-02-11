@@ -25,7 +25,7 @@ public class HoldNote : NoteBase
         lineRenderer = transform.Find("Body").gameObject.GetComponent<LineRenderer>();
 
         totalTime = data.parameters["endTime"] - data.time;
-        noteLength = totalTime * speed;
+        noteLength = totalTime * GameManager.Instance.noteSpeed;
 
         tail.position = head.position + Vector3.left * noteLength; // sets the tails position
 
@@ -57,8 +57,8 @@ public class HoldNote : NoteBase
             {
                 holdTimer += Time.deltaTime;
 
-                transform.position += Vector3.right * speed * Time.deltaTime; // when holding, stop the note from moving
-                tail.position -= Vector3.right * speed * Time.deltaTime; // keep the tail moving closer so the note "shrinks"
+                transform.position += Vector3.right * GameManager.Instance.noteSpeed * Time.deltaTime; // when holding, stop the note from moving
+                tail.position -= Vector3.right * GameManager.Instance.noteSpeed * Time.deltaTime; // keep the tail moving closer so the note "shrinks"
 
                 if (holdTimer >= (data.parameters["endTime"] - data.time))
                 {

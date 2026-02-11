@@ -28,7 +28,7 @@ public class LanePrefabController : MonoBehaviour
     private Dictionary<string, GameObject> notePrefabs;
 
     // Should be updated by parent objects to change the behaviour of the `Scroll` method
-    public static float step = .01f;
+    public static float stepSize = 0.01f;
     // Offset based on scrolling
     public float Offset { get; private set; }
     // Indiciates whether or not we are currently trying to spawn a HoldNote, and if so, what the
@@ -77,7 +77,7 @@ public class LanePrefabController : MonoBehaviour
     /// </summary>
     public void Scroll(Side side)
     {
-        var step = LanePrefabController.step * (side == Side.Left ? -1 : 1);
+        var step = stepSize * (side == Side.Left ? -1 : 1);
         foreach (var note in GetComponentsInChildren<NoteBase>())
         {
             note.transform.position += new Vector3(step, 0, 0);
@@ -88,6 +88,7 @@ public class LanePrefabController : MonoBehaviour
             }
         }
         Offset += step;
+        //Debug.Log()
     }
 
     private static void InvalidNote(string type)
@@ -119,7 +120,7 @@ public class LanePrefabController : MonoBehaviour
         // THIS IS ONE OF THE FEW TIMES INHERITANCE IS USEFUL OUTSIDE OF WRITING API SOFTWARE.
         if (noteObj.TryGetComponent<NoteBase>(out var note))
         {
-            note.Initialize(this, 0, data);
+            note.Initialize(this, data);
         }
     }
 
@@ -150,7 +151,7 @@ public class LanePrefabController : MonoBehaviour
             // THIS IS ONE OF THE FEW TIMES INHERITANCE IS USEFUL OUTSIDE OF WRITING API SOFTWARE.
             if (noteObj.TryGetComponent<NoteBase>(out var note))
             {
-                note.Initialize(this, 0, noteData);
+                note.Initialize(this, noteData);
             }
 
         }
@@ -196,7 +197,7 @@ public class LanePrefabController : MonoBehaviour
         // THIS IS ONE OF THE FEW TIMES INHERITANCE IS USEFUL OUTSIDE OF WRITING API SOFTWARE.
         if (noteObj.TryGetComponent<NoteBase>(out var note))
         {
-            note.Initialize(this, 0, noteData);
+            note.Initialize(this, noteData);
         }
     }
 

@@ -51,6 +51,11 @@ public class BeatmapPlayer
             }
             nextNoteIndex++; // move on to the next one
         }
+
+        foreach (var lane in lanes)
+        {
+            lane.Scroll(LanePrefabController.Side.Left);
+        }
     }
 
     // The endgame screen should only show after all notes have been 

@@ -147,3 +147,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe818632806134042b668e12f4a93510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeadNote
+  testMove: 0
