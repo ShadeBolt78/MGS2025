@@ -29,8 +29,13 @@ public class AnimationManager : MonoBehaviour
     int resetmax = 50; //not changed in code, but variable if want to change it
     int attackcount = 0;
 
-    static int duoActive = 0;
+    public static int duoActive = 0;
     static int hurtActive = 0;
+
+
+    int bouncetest = 0;
+    int countin = 0;
+
 
     static List<int> hurtlanes = new List<int>();
 
@@ -39,6 +44,8 @@ public class AnimationManager : MonoBehaviour
         //NOTE: the idle seems to trigger more than once somewhere, investigate!
         //do newPos when press
         InputManager.Instance.OnLanePressed += NewPos;
+         // Subscribe to pulse event
+        GameManager.Instance.OnPulse += idleanim;
 
         Vector3 baseP1 = GameObject.Find("Lane1").transform.position;
         Vector3 baseP2 = GameObject.Find("Lane3").transform.position;
@@ -106,17 +113,17 @@ public class AnimationManager : MonoBehaviour
         if (resetcounter >= resetmax)
         {
             spriteRenderer.sprite = sprBase;
-            if ((isPlayer1 != isDuo) || (!isPlayer1 && !isDuo))
-            {
+
+                bouncetest = 1;
                 animator.Play("Bounce-Idle");
-            }
 
             attackcount = 0;
 
-            if (isDuo) //PDuo
-                transform.position = offscreen;
-            else
+             if ((duoActive >= 2) == isDuo)
                 transform.position = baseGeneral;
+            else   
+                transform.position = offscreen;
+
 
         }
 
@@ -144,9 +151,9 @@ public class AnimationManager : MonoBehaviour
                 duoActive--;
                 spriteRenderer.sprite = sprBase;
             }
-            if (isDuo) //hide duo, show solo
+            
+            if (isDuo)
                 transform.position = offscreen;
-
             else if (isPlayer1 == (lane <= 2))
                 transform.position = new Vector3(GameObject.Find("Lane" + lane).transform.position.x - 5.5f,
                                                  GameObject.Find("Lane" + lane).transform.position.y - 0.25f,
@@ -187,6 +194,27 @@ public class AnimationManager : MonoBehaviour
 
     }
 
- 
+    private void idleanim()
+    {
+        if (countin == 0)
+        {
+            if (bouncetest != 2)
+            {
+                bouncetest = 2;
+                animator.Play("Bounce-Idle2");
+            }
+            else if (bouncetest != 3)
+            {
+                bouncetest = 3;
+                animator.Play("Bounce-Idle3");
+            }
+            countin = 1;
+        }
+        else
+        {
+            countin = 0;
+        }
+
+    }
 
 }
