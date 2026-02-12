@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6ed17613852bdb54e8c03c1f1f8c4d37
+guid: 33e3d1dc73d527e4ab7c25d59d417a52
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8772879399985885855
-    second: lu-hurt_0
+      213: -4807274467430142553
+    second: lu-attack-1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,10 +49,10 @@ TextureImporter:
   spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 9
-  spritePivot: {x: 0.5066236, y: 0.1614506}
+  alignment: 7
+  spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 600
-  spriteBorder: {x: 0, y: 149, z: 0, w: 171}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -113,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: lu-hurt_0
+      name: lu-attack-1_0
       rect:
         serializedVersion: 2
-        x: 65
-        y: 159
-        width: 869
-        height: 657
+        x: 8
+        y: 5
+        width: 1319
+        height: 1085
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f92308565578fb970800000000000000
-      internalID: 8772879399985885855
+      spriteID: 7ad65078751294db0800000000000000
+      internalID: -4807274467430142553
       vertices: []
       indices: 
       edges: []
@@ -139,7 +139,7 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    internalID: 0
     vertices: []
     indices: 
     edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      lu-hurt_0: 8772879399985885855
+      lu-attack-1_0: -4807274467430142553
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

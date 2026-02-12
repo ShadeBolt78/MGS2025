@@ -2298,7 +2298,6 @@ MonoBehaviour:
   sprBase: {fileID: 21300000, guid: 7f924c106fb83534d857d47f5fd4de28, type: 3}
   sprAttack1: {fileID: 21300000, guid: 31239fe9469d4dd4bab880f7c752bbef, type: 3}
   sprAttack2: {fileID: 21300000, guid: 2248531940234dd4d8381fb989e15fe6, type: 3}
-  sprAttack3: {fileID: 21300000, guid: 25d161c49737b544696bca9c8304477c, type: 3}
   sprOuch: {fileID: 21300000, guid: 42b10163def625c41ae3d21a90fa2dc5, type: 3}
   spriteRenderer: {fileID: 778833795}
   baseGeneral: {x: 0, y: 0, z: 0}
@@ -3623,10 +3622,9 @@ MonoBehaviour:
   isPlayer1: 0
   isDuo: 0
   sprBase: {fileID: 21300000, guid: cd42ad81f180dfb41a80495e881755e0, type: 3}
-  sprAttack1: {fileID: 21300000, guid: 2248531940234dd4d8381fb989e15fe6, type: 3}
+  sprAttack1: {fileID: 21300000, guid: 33e3d1dc73d527e4ab7c25d59d417a52, type: 3}
   sprAttack2: {fileID: 21300000, guid: d9701803daf539e4c884200f99fe5f46, type: 3}
-  sprAttack3: {fileID: 21300000, guid: 400726ca7e1c35e4cbdfcd728a89d438, type: 3}
-  sprOuch: {fileID: 8772879399985885855, guid: 6ed17613852bdb54e8c03c1f1f8c4d37, type: 3}
+  sprOuch: {fileID: 21300000, guid: 6ed17613852bdb54e8c03c1f1f8c4d37, type: 3}
   spriteRenderer: {fileID: 912453897}
   baseGeneral: {x: 0, y: 0, z: 0}
   resetcounter: 0
@@ -4531,7 +4529,6 @@ MonoBehaviour:
   sprBase: {fileID: 21300000, guid: dbf23062210e4394f8bb27904efea1a0, type: 3}
   sprAttack1: {fileID: 21300000, guid: 144ee4308bad4eb41beda615d673b6fe, type: 3}
   sprAttack2: {fileID: 21300000, guid: a6a0d4de0b5ce2345a233c4b2e5fdc88, type: 3}
-  sprAttack3: {fileID: 21300000, guid: 400726ca7e1c35e4cbdfcd728a89d438, type: 3}
   sprOuch: {fileID: 21300000, guid: 309e8a55b6915f841933bc686bbfc339, type: 3}
   spriteRenderer: {fileID: 1784994248}
   baseGeneral: {x: 0, y: 0, z: 0}
