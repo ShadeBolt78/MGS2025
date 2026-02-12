@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 /// <summary>
 /// "That is my power. The Almighty." - Yhwach
@@ -28,9 +29,10 @@ public class GameManager : MonoBehaviour
                               // the killzone is set a trigger collider and handles note deletion on its own.
 
     private BeatmapData beatmap; // the beatmap to run
-    private BeatmapPlayer beatmapPlayer; // the beatmap runner
+                                 // private BeatmapPlayer beatmapPlayer; // the beatmap runner
+    private float end;
 
-    private LanePrefabController[] lanes; // Lane hooks
+    private LaneController[] lanes; // Lane hooks
     private AudioSource audioSource; // audio hook 
     ///
     /// <summary>
@@ -50,11 +52,13 @@ public class GameManager : MonoBehaviour
         else
             Debug.LogError("BaseManager singleton has not been instantiated. Did you forget to load the Base scene?");
 
-        foreach (var lane in lanes) // set hitzone for each lane
+        end = lanes.Max(lane => lane.GetComponentsInChildren<NoteBase>().Max(new System.Func<NoteBase, float>(note => note.transform.position.x)));
+        foreach (var lane in lanes) // set hitzone, step value for each lane
         {
             lane.specialZone = hitZone;
         }
-        beatmapPlayer = new BeatmapPlayer(beatmap, lanes, noteSpeed);
+        BaseManager.Instance.Offset = 10f;
+        // beatmapPlayer = new BeatmapPlayer(beatmap, lanes, noteSpeed);
         //secondsPerBeat = 60f / bpm; // Seconds in each beat is just the bpm converted to seconds reciprocal.
     }
 
@@ -78,16 +82,23 @@ public class GameManager : MonoBehaviour
         InputManager.Instance.EnableGameplay();
     }
 
+    /*
     /// <summary>
     /// Update() is called every frame, all Update() calls from every object complete before the next frame is started.
     /// </summary>
     private void Update()
     {
-        //if (audioSource.isPlaying)
-        //{
-        // swap for audioSource.time when the audioSource is fully implemented
-        beatmapPlayer.Update(Time.time);
-        //}
+    //if (audioSource.isPlaying)
+    //{
+    // swap for audioSource.time when the audioSource is fully implemented
+    beatmapPlayer.Update(Time.time);
+    //}
+    }
+    */
+
+    private void FixedUpdate()
+    {
+        BaseManager.Instance.Scroll();
     }
 
 
@@ -95,9 +106,6 @@ public class GameManager : MonoBehaviour
     // beatmapPlayer is private so we need a public method to check if game is done
     public bool GameIsDone()
     {
-        if (beatmapPlayer == null)
-            return false;
-
-        return beatmapPlayer.IsFinished();
+        return lanes.All(lane => lane.Offset > end);
     }
 }

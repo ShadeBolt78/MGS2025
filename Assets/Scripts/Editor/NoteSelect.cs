@@ -11,7 +11,6 @@ public class NoteSelect : MonoBehaviour
         dropdown = GetComponent<TMP_Dropdown>();
         dropdown.onValueChanged.AddListener(index =>
         {
-            Debug.Log(index);
             switch (index)
             {
                 case 0:
