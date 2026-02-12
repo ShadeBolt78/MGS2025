@@ -18,7 +18,7 @@ public class BeatmapData
     public string songPath; // directory path to the audio. Should be in Assets/StreamingAssets but that could change
     public float bpm; // the predetermined BPM of the song. Sound Design should be providing these to you.
     public string notesCsv; // Notes and timings [encoded(csv)]
-    public string SourcePath { private set; get; }
+    private string sourcePath;
 
     [NonSerialized] public List<NoteData> notes = new(); // raw note data [decodeTarget]
 
@@ -47,11 +47,11 @@ public class BeatmapData
         {
             string json = File.ReadAllText(filePath); // grab that shit
             BeatmapData data = JsonUtility.FromJson<BeatmapData>(json); // instatiate a beatmapdata object from the json utility
-            data.SourcePath = filePath;
+            data.sourcePath = filePath;
             data.ParseCsv(); // You should parse yourself, NOW!
             return data;
         }
-        catch (System.Exception e) // "and if anything goes wrong, don't crash, just run this code instead"
+        catch (Exception e) // "and if anything goes wrong, don't crash, just run this code instead"
         {
             Debug.LogError($"Failed to load beatmap: {filePath}\n{e}");
             return null;
@@ -60,7 +60,28 @@ public class BeatmapData
 
     public void Save()
     {
-        Debug.LogError("this method still needs to be implemented!");
+        // Rewrite CSV
+        var csv = "";
+        foreach (var note in notes)
+        {
+            var entry = $"{note.type},{note.lane},{note.time}";
+            foreach (var param in note.parameters)
+            {
+                entry += $",{param.Key}={param.Value}";
+            }
+            csv += entry + "\n";
+        }
+        notesCsv = csv;
+
+        // Export
+        try
+        {
+            File.WriteAllText(sourcePath, JsonUtility.ToJson(this, true));
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Failed to save beatmap: {sourcePath}\n{e}");
+        }
     }
 
     /// <summary>

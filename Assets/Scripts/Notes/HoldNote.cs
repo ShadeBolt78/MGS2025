@@ -11,7 +11,6 @@ public class HoldNote : NoteBase
     private bool hasStarted = false;
 
     private float holdTimer = 0f;
-    private float totalTime; // the amount of time of the note in seconds
     private float noteLength; // the physical length of the note (dependant on speed)
 
     private Transform head; // reference to the head gameObject of the hold note
@@ -24,8 +23,7 @@ public class HoldNote : NoteBase
         tail = transform.Find("Tail");
         lineRenderer = transform.Find("Body").gameObject.GetComponent<LineRenderer>();
 
-        totalTime = data.parameters["endTime"] - data.time;
-        noteLength = totalTime * speed;
+        noteLength = data.parameters["endTime"] - data.time;
 
         tail.position = head.position + Vector3.left * noteLength; // sets the tails position
 
@@ -36,16 +34,18 @@ public class HoldNote : NoteBase
 
     public override void OnKeyPressed()
     {
-        if (!hasStarted && IsInHitZone(lane.specialZone))
+        if (GameManager.Instance != null && !hasStarted && IsInHitZone(lane.specialZone))
         {
             isHolding = true;
             hasStarted = true;
+            // Move out of 'Notes' object so its not affected by further changes to lane.Offset
+            // It will now be responsible for its own animation / movement
+            transform.SetParent(GameManager.Instance.transform, true);
         }
     }
 
-    protected override void Update()
+    protected void FixedUpdate()
     {
-        base.Update();
         // *** DO NOT *** unprotect base.Update(). FOR ANY REASON! UNLESS CLEARED WITH ME!
 
         lineRenderer.SetPosition(0, head.position);
@@ -53,12 +53,12 @@ public class HoldNote : NoteBase
 
         if (hasStarted && isHolding)
         {
-            if (InputManager.Instance.IsLaneHeld(lane.Index))
+            if (InputManager.Instance.IsLaneHeld(lane.laneIndex))
             {
                 holdTimer += Time.deltaTime;
 
-                transform.position += Vector3.right * speed * Time.deltaTime; // when holding, stop the note from moving
-                tail.position -= Vector3.right * speed * Time.deltaTime; // keep the tail moving closer so the note "shrinks"
+                transform.position += Vector3.right * BaseManager.Instance.Step; // when holding, stop the note from moving
+                tail.position -= Vector3.right * BaseManager.Instance.Step; // keep the tail moving closer so the note "shrinks"
 
                 if (holdTimer >= (data.parameters["endTime"] - data.time))
                 {

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+/*
 /// <summary>
 /// A BeatmapPlayer handles the logic to run a beatmap.
 /// TIS NOT A MONOBEHAVIOR SHOULD ONE LOOK CLOSELY
@@ -70,3 +71,4 @@ public class BeatmapPlayer
         return beatmap.notes[beatmap.notes.Count - 1].resolved;
     }
 }
+*/
