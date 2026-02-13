@@ -196,7 +196,7 @@ public class AnimationManager : MonoBehaviour
 
     private void idleanim()
     {
-        if (countin == 0)
+        if (countin == 0 && resetcounter >= resetmax)
         {
             if (bouncetest != 2)
             {
